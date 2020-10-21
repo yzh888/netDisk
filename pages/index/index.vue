@@ -21,7 +21,7 @@
 		</view>
 		</view> -->
 		<nav-bar>
-			<text slot="left" class="ml-3 font-md">首页</text>
+			<text slot="left" class="ml-3 font-md text-white font-weight-bold">首页</text>
 			<template slot="right">
 				<view style="width: 60rpx;height: 60rpx;"
 				class="flex align-center justify-center bg-light rounded-circle mr-3">
@@ -33,7 +33,7 @@
 				</view>
 			</template>
 		</nav-bar>
-		<view class="bg-info" style="height: 1000px;">
+		<view class="uni-badge-purple" style="height: 1000px;">
 			123
 		</view>
 	</view>

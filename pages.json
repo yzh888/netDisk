@@ -27,8 +27,9 @@
 		}, {
 			"path": "pages/my/my",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 
 		}
