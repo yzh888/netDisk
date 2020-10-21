@@ -36,30 +36,46 @@
 			</template>
 		</nav-bar>
 		
-		<view class="uni-badge-purple" style="height: 1000px;">
-			123
+		<view class="uni-badge-purple" style="height: 1000px;" >
+			<!-- 设置圆角 -->
+			<uni-search-bar :radius="100" placeholder="搜索网盘文件" ></uni-search-bar>
+			
 		</view>
 	</view>
 </template>
 
 <script>
+	//import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
+	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
 	//import uniStatusBar from '@/components/uni-ui/uni-status-bar/uni-status-bar.vue';
 	import navBar from '@/components/common/nav-bar.vue';
 	export default {
 		components:{
 		//uniStatusBar	
+		uniSearchBar,
+		// uniSwiperDot,
 		navBar
 		},
 		data() {
 			return {
-				
+				 info: [{
+				                content: 'banner3.jpg'
+				            }, {
+				                content: '123'
+				            }, {
+				                content: '内容 C'
+				            }],
+				            current: 0,
+				            mode: 'round',
 			};
 		},
 		onLoad() {
 			
 		},
 		methods:{
-			
+			change(e) {
+			            this.current = e.detail.current;
+			        }
 		}
 	}
 </script>
