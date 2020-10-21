@@ -20,6 +20,7 @@
 		</view>
 		</view>
 		</view> -->
+		<!-- 自定义导航栏 -->
 		<nav-bar>
 			<text slot="left" class="ml-3 font-md text-white font-weight-bold">首页</text>
 			<template slot="right">
@@ -27,12 +28,14 @@
 				class="flex align-center justify-center bg-light rounded-circle mr-3">
 				<text class="iconfont icon-zengjia"></text>
 				</view>
+				
 				<view class="flex align-center justify-center bg-light rounded-circle mr-3"
 				style="width: 60rpx;height: 60rpx;">
 					<text class="iconfont icon-gengduo"></text>
 				</view>
 			</template>
 		</nav-bar>
+		
 		<view class="uni-badge-purple" style="height: 1000px;">
 			123
 		</view>
