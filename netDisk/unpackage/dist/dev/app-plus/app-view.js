@@ -408,9 +408,28 @@ var render = function() {
             1
           )
         : _vm._e(),
-      _c("f-dialog", { ref: "dialog", attrs: { _i: 23 } }, [
+      _c("f-dialog", { ref: "delete", attrs: { _i: 23 } }, [
         _vm._v("是否删除选中的文件?")
-      ])
+      ]),
+      _c(
+        "f-dialog",
+        { ref: "rename", attrs: { _i: 24 } },
+        [
+          _c("v-uni-input", {
+            staticClass: _vm._$g(25, "sc"),
+            staticStyle: { height: "95rpx" },
+            attrs: { type: "text", placeholder: "重命名", _i: 25 },
+            model: {
+              value: _vm._$g(25, "v-model"),
+              callback: function($$v) {
+                _vm.$handleVModelEvent(25, $$v)
+              },
+              expression: "renameValue"
+            }
+          })
+        ],
+        1
+      )
     ],
     2
   )

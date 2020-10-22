@@ -81,7 +81,16 @@
 		</view>	
 		
 		<!-- 是否删除 -->
-		<f-dialog ref="dialog">是否删除选中的文件?</f-dialog>
+		<f-dialog ref="delete">是否删除选中的文件?</f-dialog>
+		<f-dialog ref="rename">
+			<input 
+			type="text"
+			v-model="renameValue"
+			class="flex-1 bg-light rounded px-2"
+			style="height: 95rpx;"
+			placeholder="重命名"
+			/>
+		</f-dialog>
 		</view>
 		
 	</view>
@@ -105,6 +114,7 @@
 		},
 		data() {
 			return {
+				 renameValue: '',
 				 list: [
 				         {
 				           type: 'dir',
@@ -167,13 +177,32 @@
 			handleBottomEvent(item){
 				switch(item.name){
 					case '删除':
-					this.$refs.dialog.open(close => {
+					this.$refs.delete.open(close => {
+						//对list过滤，留下未选中的
+						this.list = this.list.filter(item => !item.checked);
 						close();
-						//在这可写删除的回调事件，实例需要把checklist移除
-						console.log('删除文件');
-						console.log(this.checkList);
+						uni.showToast({
+							title: '删除成功',
+							icon: 'none'
+						});
 					});
 					break;
+					
+					case '重命名':
+					//重命名只能对单个文件，所以this.checkList[0],也就是唯一元素
+						this.renameValue = this.checkList[0].name;
+						this.$refs.rename.open(close => {
+							if(this.renameValue == ''){
+								return uni.showToast({
+									title: '文件名称不能为空',
+									icon: 'none'
+								});
+							}
+							//更新该元素的name值,实时看到效果
+							this.checkList[0].name = this.renameValue;
+							close();
+						});
+						break;
 					default:
 					break;
 				}

@@ -17,7 +17,7 @@
 		<!-- 确定和取消区域，用@tap事件更贴合手机操作，文字可通过props传递，更灵活 -->
 		<view class="flex border-top border-light-secondary" style="height: 100rpx;">
 			<view class="flex-1 text-muted flex align-center justify-center" @tap="cancel">{{ cancelText }}</view>
-			<view class="flex-1 text-main flex align-center justify-center" @tap="confirm">{{ cancelText }}</view>
+			<view class="flex-1 text-main flex align-center justify-center" @tap="confirm">{{ confirmText }}</view>
 		</view>
 		</view>
 	</uni-popup>
