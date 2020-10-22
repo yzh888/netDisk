@@ -30,6 +30,7 @@ module.exports = appInfo => {
     // 跨域白名单
     domainWhiteList: ['http://localhost:3000'],
   };
+
   // 允许跨域的方法
   config.cors = {
     origin: '*',
