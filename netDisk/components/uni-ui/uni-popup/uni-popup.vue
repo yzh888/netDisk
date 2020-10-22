@@ -1,17 +1,35 @@
 <template>
-	<view v-if="showPopup" class="uni-popup">
-		<view :class="[ani, animation ? 'ani' : '', !custom ? 'uni-custom' : '']" class="uni-popup__mask" @click="close(true)" />
-		<view :class="[type, ani, animation ? 'ani' : '', !custom ? 'uni-custom' : '']" class="uni-popup__wrapper" @click="close(true)">
+	<view v-if="showPopup" class="uni-popup" @touchmove.stop.prevent="clear">
+		<uni-transition :mode-class="['fade']" :styles="maskClass" :duration="duration" :show="showTrans" @click="onTap" />
+		<uni-transition :mode-class="ani" :styles="transClass" :duration="duration" :show="showTrans" @click="onTap">
 			<view class="uni-popup__wrapper-box" @click.stop="clear">
 				<slot />
 			</view>
-		</view>
+		</uni-transition>
 	</view>
 </template>
 
 <script>
+	import uniTransition from '../uni-transition/uni-transition.vue'
+
+	/**
+	 * PopUp 弹出层
+	 * @description 弹出层组件，为了解决遮罩弹层的问题
+	 * @tutorial https://ext.dcloud.net.cn/plugin?id=329
+	 * @property {String} type = [top|center|bottom] 弹出方式
+	 * 	@value top 顶部弹出
+	 * 	@value center 中间弹出
+	 * 	@value bottom 底部弹出
+	 * @property {Boolean} animation = [ture|false] 是否开启动画
+	 * @property {Boolean} maskClick = [ture|false] 蒙版点击是否关闭弹窗
+	 * @event {Function} change 打开关闭弹窗触发，e={show: false}
+	 */
+
 	export default {
 		name: 'UniPopup',
+		components: {
+			uniTransition
+		},
 		props: {
 			// 开启动画
 			animation: {
@@ -23,77 +41,134 @@
 				type: String,
 				default: 'center'
 			},
-			// 是否开启自定义
-			custom: {
-				type: Boolean,
-				default: false
-			},
 			// maskClick
 			maskClick: {
-				type: Boolean,
-				default: true
-			},
-			show: {
 				type: Boolean,
 				default: true
 			}
 		},
 		data() {
 			return {
-				ani: '',
-				showPopup: false
-			}
-		},
-		watch: {
-			show(newValue) {
-				if (newValue) {
-					this.open()
-				} else {
-					this.close()
+				duration: 300,
+				ani: [],
+				showPopup: false,
+				showTrans: false,
+				maskClass: {
+					'position': 'fixed',
+					'bottom': 0,
+					'top': 0,
+					'left': 0,
+					'right': 0,
+					'backgroundColor': 'rgba(0, 0, 0, 0.4)'
+				},
+				transClass: {
+					'position': 'fixed',
+					'left': 0,
+					'right': 0,
 				}
 			}
 		},
-		created() {},
+		watch: {
+			type: {
+				handler: function(newVal) {
+					switch (this.type) {
+						case 'top':
+							this.ani = ['slide-top']
+							this.transClass = {
+								'position': 'fixed',
+								'left': 0,
+								'right': 0,
+							}
+							break
+						case 'bottom':
+							this.ani = ['slide-bottom']
+							this.transClass = {
+								'position': 'fixed',
+								'left': 0,
+								'right': 0,
+								'bottom': 0
+							}
+							break
+						case 'center':
+							this.ani = ['zoom-out', 'fade']
+							this.transClass = {
+								'position': 'fixed',
+								/* #ifndef APP-NVUE */
+								'display': 'flex',
+								'flexDirection': 'column',
+								/* #endif */
+								'bottom': 0,
+								'left': 0,
+								'right': 0,
+								'top': 0,
+								'justifyContent': 'center',
+								'alignItems': 'center'
+							}
+
+							break
+					}
+				},
+				immediate: true
+			}
+		},
+		created() {
+			if (this.animation) {
+				this.duration = 300
+			} else {
+				this.duration = 0
+			}
+		},
 		methods: {
-			clear() {},
+			clear(e) {
+				// TODO nvue 取消冒泡
+				e.stopPropagation()
+			},
 			open() {
+				this.showPopup = true
+				this.$nextTick(() => {
+					clearTimeout(this.timer)
+					this.timer = setTimeout(() => {
+						this.showTrans = true
+					}, 50);
+				})
 				this.$emit('change', {
 					show: true
 				})
-				this.showPopup = true
-				this.$nextTick(() => {
-					setTimeout(() => {
-						this.ani = 'uni-' + this.type
-					}, 30)
-				})
 			},
-			close(type) {
-				if (!this.maskClick && type) return
-				this.$emit('change', {
-					show: false
-				})
-				this.ani = ''
+			close(type = false) {
+				this.showTrans = false
 				this.$nextTick(() => {
-					setTimeout(() => {
+					clearTimeout(this.timer)
+					this.timer = setTimeout(() => {
+						this.$emit('change', {
+							show: false
+						})
 						this.showPopup = false
 					}, 300)
 				})
+			},
+			onTap() {
+				if (!this.maskClick) return
+				this.close()
 			}
 		}
 	}
 </script>
-<style>
-	@charset "UTF-8";
-
+<style scoped>
 	.uni-popup {
 		position: fixed;
+		/* #ifdef H5 */
+		top: var(--window-top);
+		/* #endif */
+		/* #ifndef H5 */
 		top: 0;
-		top: 0;
+		/* #endif */
 		bottom: 0;
 		left: 0;
 		right: 0;
-		z-index: 9998;
-		overflow: hidden
+		/* #ifndef APP-NVUE */
+		z-index: 9999;
+		/* #endif */
 	}
 
 	.uni-popup__mask {
@@ -102,86 +177,88 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		z-index: 998;
-		background: rgba(0, 0, 0, .4);
-		opacity: 0
+		background-color: rgba(0, 0, 0, 0.4);
+		opacity: 0;
 	}
 
-	.uni-popup__mask.ani {
-		transition: all .3s
+	.mask-ani {
+		transition-property: opacity;
+		transition-duration: 0.2s;
 	}
 
-	.uni-popup__mask.uni-bottom,
-	.uni-popup__mask.uni-center,
-	.uni-popup__mask.uni-top {
-		opacity: 1
+	.uni-top-mask {
+		opacity: 1;
+	}
+
+	.uni-bottom-mask {
+		opacity: 1;
+	}
+
+	.uni-center-mask {
+		opacity: 1;
 	}
 
 	.uni-popup__wrapper {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
 		position: absolute;
-		z-index: 999;
-		box-sizing: border-box
 	}
 
-	.uni-popup__wrapper.ani {
-		transition: all .3s
-	}
-
-	.uni-popup__wrapper.top {
+	.top {
 		top: 0;
 		left: 0;
-		width: 100%;
-		transform: translateY(-100%)
+		right: 0;
+		transform: translateY(-500px);
 	}
 
-	.uni-popup__wrapper.bottom {
+	.bottom {
 		bottom: 0;
 		left: 0;
-		width: 100%;
-		transform: translateY(100%)
+		right: 0;
+		transform: translateY(500px);
 	}
 
-	.uni-popup__wrapper.center {
-		width: 100%;
-		height: 100%;
+	.center {
+		/* #ifndef APP-NVUE */
 		display: flex;
+		flex-direction: column;
+		/* #endif */
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 0;
 		justify-content: center;
 		align-items: center;
 		transform: scale(1.2);
-		opacity: 0
+		opacity: 0;
 	}
 
 	.uni-popup__wrapper-box {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
 		position: relative;
-		box-sizing: border-box
 	}
 
-	.uni-popup__wrapper.uni-custom .uni-popup__wrapper-box {
-		/* padding: 30upx; */
-		background: #fff
+	.content-ani {
+		/* transition: transform 0.3s;
+ */
+		transition-property: transform, opacity;
+		transition-duration: 0.2s;
 	}
 
-	.uni-popup__wrapper.uni-custom.center .uni-popup__wrapper-box {
-		position: relative;
-		max-width: 80%;
-		max-height: 80%;
-		overflow-y: scroll
+
+	.uni-top-content {
+		transform: translateY(0);
 	}
 
-	.uni-popup__wrapper.uni-custom.bottom .uni-popup__wrapper-box,
-	.uni-popup__wrapper.uni-custom.top .uni-popup__wrapper-box {
-		width: 100%;
-		max-height: 500px;
-		overflow-y: scroll
+	.uni-bottom-content {
+		transform: translateY(0);
 	}
 
-	.uni-popup__wrapper.uni-bottom,
-	.uni-popup__wrapper.uni-top {
-		transform: translateY(0)
-	}
-
-	.uni-popup__wrapper.uni-center {
+	.uni-center-content {
 		transform: scale(1);
-		opacity: 1
+		opacity: 1;
 	}
 </style>

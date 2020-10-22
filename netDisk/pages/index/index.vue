@@ -57,20 +57,6 @@
 				 placeholder="搜索网盘文件"/>
 			</view>
 			<!-- <uni-search-bar :radius="100" placeholder="搜索网盘文件" ></uni-search-bar> -->
-			<!-- <view class="flex justify-between p-2">
-				<view class="flex align-center">
-					<view style="height: 70rpx;width: 70rpx;">
-						<text class="iconfont icon-file-b-0 text-warning" style="font-size: 25;"></text>
-					</view>
-					<view class="flex flex-column ml-2">
-						<text class="font-md font-weight-bold">{{ list.name }}</text>
-						<text class="font-sm">{{ list.type }}</text>
-					</view>
-				</view>
-				<view class="flex align-center">
-					<text class="iconfont icon-jinru"></text>
-				</view>
-			</view> -->
 		</view>
 		
 		<!-- 正文主体部分 -->
@@ -82,22 +68,27 @@
 		<view v-if="checkCount > 0">
 			<view class="flex align-stretch bg-primary text-white fixed-bottom">
 				<view class="flex-1 flex flex-column align-center justify-center"
-				style="line-height: 1.5;"
+				style="line-height: 1.6;"
 				v-for="(item,index) in actions"
 				:key="index"
-				hover-class="bg-hover-primary">
-					<text class="iconfont" :class="item.icon"></text>
-					{{ item.name }}
+				hover-class="bg-hover-primary"
+				@click="handleBottomEvent(item)"
+				>
+				<text class="iconfont" :class="item.icon"></text>
+				{{ item.name }}
 				</view>
 			</view>
 		</view>	
 		
+		<!-- 是否删除 -->
+		<f-dialog ref="dialog">是否删除选中的文件?</f-dialog>
 		</view>
 		
 	</view>
 </template>
 
 <script>
+	import fDialog from '@/components/common/f-dialog.vue'
 	import fList from '@/components/common/f-list.vue'
 	//import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
 	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
@@ -108,6 +99,7 @@
 		//uniStatusBar	
 		uniSearchBar,
 		fList,
+		fDialog,
 		// uniSwiperDot,
 		navBar
 		},
@@ -170,6 +162,21 @@
 				this.list.forEach(item => {
 					item.checked = checked;
 				});
+			},
+			//处理底部操作条事件，这里仅对“删除”
+			handleBottomEvent(item){
+				switch(item.name){
+					case '删除':
+					this.$refs.dialog.open(close => {
+						close();
+						//在这可写删除的回调事件，实例需要把checklist移除
+						console.log('删除文件');
+						console.log(this.checkList);
+					});
+					break;
+					default:
+					break;
+				}
 			}
 		},
 		computed:{
