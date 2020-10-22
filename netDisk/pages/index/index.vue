@@ -35,7 +35,7 @@
 				</view>
 			</template>
 		</nav-bar>
-		
+		<!-- 搜索框 -->
 		<view class="px-3 py-2" >
 			<view class="position-relative">
 				<view class="flex align-center justify-center text-light-muted"
@@ -63,6 +63,7 @@
 				</view>
 			</view> -->
 		</view>
+		<!-- 正文主体部分 -->
 		<view v-for="(item,index) in list" :key="index">
 		      <fList :item="item"></fList>
 		</view>
@@ -129,7 +130,7 @@
 				method:'GET',
 				success: res => {
 					this.list = res.data.data;
-					console.log(res.data)
+					console.log(res.data.data)
 				}
 			})
 		},
