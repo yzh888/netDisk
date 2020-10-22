@@ -43,6 +43,7 @@
 				<view slot='right' class="font-md mr-3 text-primary" @click="handleCheckAll(true)">全选</view>
 			</template>
 		</nav-bar>
+		
 		<!-- 搜索框 -->
 		<view class="px-3 py-2" >
 			<view class="position-relative">
@@ -71,10 +72,25 @@
 				</view>
 			</view> -->
 		</view>
+		
 		<!-- 正文主体部分 -->
 		<!-- <view v-for="(item,index) in list" :key="index">
 		      <fList :item="item"></fList> -->
 		<f-list v-for="(item,index) in list" :key="index" :item="item" :index="index" @select="select"></f-list>	  
+		
+		<!-- 底部操作条 -->
+		<view v-if="checkCount > 0">
+			<view class="flex align-stretch bg-primary text-white fixed-bottom">
+				<view class="flex-1 flex flex-column align-center justify-center"
+				style="line-height: 1.5;"
+				v-for="(item,index) in actions"
+				:key="index"
+				hover-class="bg-hover-primary">
+					<text class="iconfont" :class="item.icon"></text>
+					{{ item.name }}
+				</view>
+			</view>
+		</view>	
 		
 		</view>
 		
@@ -163,6 +179,31 @@
 			},
 			checkCount() {
 				return this.checkList.length;
+			},
+			//操作菜单
+			actions(){
+				if(this.checkCount > 1){
+					return[{
+						icon:"icon-xiazai",
+						name:"下载"
+					},{
+						icon:"icon-shanchu",
+						name:"删除"
+					}]
+				}
+				return[{
+					icon:"icon-xiazai",
+					name:"下载"
+				},{
+					icon:"icon-fenxiang-1",
+					name:"分享"
+				},{
+					icon:"icon-shanchu",
+					name:"删除"
+				},{
+					icon:"icon-chongmingming",
+					name:"重命名"
+				}]
 			}
 		}
 	}
