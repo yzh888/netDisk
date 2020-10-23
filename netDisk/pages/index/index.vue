@@ -155,14 +155,16 @@
 						name: '风景.jpg',
 						create_time: '2020-10-21 08:00',
 						data: 'https://pic-go-test.oss-cn-hangzhou.aliyuncs.com/img/53.jpeg',
-						checked: false
+						checked: false,
+						download: 100
 					},
 					{
 						type: 'image',
-						name: '风景8888.jpg',
+						name: '壁纸.jpg',
 						create_time: '2020-10-21 08:00',
 						data: 'https://pic-go-test.oss-cn-hangzhou.aliyuncs.com/img/53.jpeg',
-						checked: false
+						checked: false,
+						download: 50
 					},
 					{
 						type: 'video',
