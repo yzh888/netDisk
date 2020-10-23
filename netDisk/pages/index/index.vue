@@ -30,7 +30,11 @@
 						<text class="iconfont icon-zengjia"></text>
 					</view>
 
-					<view class="flex align-center justify-center bg-light rounded-circle mr-3" style="width: 60rpx;height: 60rpx;">
+					<view 
+						class="flex align-center justify-center bg-light rounded-circle mr-3" 
+						style="width: 60rpx;height: 60rpx;"
+						@click="openSortDialog"
+					>
 						<text class="iconfont icon-gengduo"></text>
 					</view>
 				</template>
@@ -97,6 +101,15 @@
 				</view>
 			</view>
 		</uni-popup>
+		<!-- 排序框，底部弹出，遍历排序操作数组，为当前索引绑定文字蓝色样式 -->
+		<uni-popup ref="sort" type="bottom">
+			<view class="bg-white">
+				<view class="flex align-center justify-center py-3 font border-bottom border-light-secondary" v-for="(item,index) in sortOptions"
+				 :key="index" :class="index === sortIndex ? 'text-main' : 'text-dark'" hover-class="bg-light" @click="changeSort(index)">
+					{{ item.name }}
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 	</view>
 </template>
@@ -123,6 +136,14 @@
 			return {
 				renameValue: '',
 				newdirname: '',
+				sortIndex: 0,
+				sortOptions: [{
+						name: '按名称排序'
+					},
+					{
+						name: '按时间排序'
+					}
+				],
 				list: [{
 						type: 'dir',
 						name: '我的笔记',
@@ -197,6 +218,14 @@
 			})
 		},
 		methods: {
+			openSortDialog() {
+				this.$refs.sort.open();
+			},
+			// 切换排序
+			changeSort(index) {
+				this.sortIndex = index;
+				this.$refs.sort.close();
+			},
 			// 列表点击事件处理
 			doEvent(item) {
 				switch (item.type) {
