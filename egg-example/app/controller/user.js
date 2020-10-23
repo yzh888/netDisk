@@ -10,44 +10,46 @@ class UserController extends Controller {
         ctx.validate({
             username: {
                 required: true,
-                type: "string",
-                desc: "用户名",
+                type: 'string',
+                desc: '用户名',
                 range: {
                     min: 5,
-                    max: 20
+                    max: 20,
                 },
             },
             password: {
                 required: true,
-                type: "string",
-                desc: "密码"
+                type: 'string',
+                desc: '密码',
             },
             repassword: {
                 required: true,
-                type: "string",
-                desc: "确认密码"
-            }
+                type: 'string',
+                desc: '确认密码',
+            },
         });
 
-        let { username, password, repassword } = ctx.request.body;
+        const { username, password, repassword } = ctx.request.body;
 
         if (password !== repassword) {
             return ctx.throw(400, '密码和确认密码不相同');
         }
 
         // 用户名是否存在
-        if (await app.model.User.findOne({
-            where: {
-                username
-            }
-        })) {
+        if (
+            await app.model.User.findOne({
+                where: {
+                    username,
+                },
+            })
+        ) {
             ctx.throw(400, '用户名已存在');
         }
 
         // 创建用户
         let user = await app.model.User.create({
             username,
-            password
+            password,
         });
 
         if (!user) {
@@ -60,21 +62,60 @@ class UserController extends Controller {
         ctx.apiSuccess(user);
     }
 
-    // 加密
-    async createPassword(password) {
-        const hmac = crypto.createHash("sha256", this.app.config.crypto.secret);
-        hmac.update(password);
-        return hmac.digest("hex");
+    // 登录
+    async login() {
+        const { ctx, app } = this;
+        // 参数验证
+        ctx.validate({
+            username: {
+                required: true,
+                type: 'string',
+                desc: '用户名',
+            },
+            password: {
+                required: true,
+                type: 'string',
+                desc: '密码',
+            },
+        });
+        // 获取到数据
+        const { username, password } = ctx.request.body;
+        // 验证用户是否存在
+        let user = await app.model.User.findOne({
+            where: {
+                username,
+            },
+        });
+
+        if (!user) {
+            return ctx.apiFail('当前用户不存在');
+        }
+        // 验证密码
+        this.checkPassword(password, user.password);
+
+        user = JSON.parse(JSON.stringify(user));
+
+        // 生成token
+        user.token = ctx.getToken(user);
+        delete user.password;
+
+        // 加入缓存中
+        if (!(await this.service.cache.set('user_' + user.id, user.token))) {
+            ctx.throw(400, '登录失败');
+        }
+
+        ctx.apiSuccess(user);
     }
 
     // 验证密码
-    async checkPassword(password, hash_password) {
-        // 先对需要验证的密码进行加密
-        password = await this.createPassword(password);
-        return password === hash_password;
+    checkPassword(password, hash_password) {
+        const hmac = crypto.createHash('sha256', this.app.config.crypto.secret);
+        hmac.update(password);
+        if (hmac.digest('hex') !== hash_password) {
+            this.ctx.throw(400, '密码错误');
+        }
+        return true;
     }
-
-
 }
 
 module.exports = UserController;

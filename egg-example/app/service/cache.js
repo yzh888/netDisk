@@ -1,5 +1,5 @@
-'use strict'
-const Service = require('egg').Service
+'use strict';
+const Service = require('egg').Service;
 
 class CacheService extends Service {
     /**
@@ -9,14 +9,14 @@ class CacheService extends Service {
      * @return { array } 返回数组
      */
     async getList(key, isChildObject = false) {
-        const { redis } = this.app
-        let data = await redis.lrange(key, 0, -1)
+        const { redis } = this.app;
+        let data = await redis.lrange(key, 0, -1);
         if (isChildObject) {
-            data = data.map((item) => {
-                return JSON.parse(item)
-            })
+            data = data.map(item => {
+                return JSON.parse(item);
+            });
         }
-        return data
+        return data;
     }
     /**
      * 设置列表
@@ -27,17 +27,17 @@ class CacheService extends Service {
      * @return { Number } 返回索引
      */
     async setList(key, value, type = 'push', expir = 0) {
-        const { redis } = this.app
+        const { redis } = this.app;
         if (expir > 0) {
-            await redis.expire(key, expir)
+            await redis.expire(key, expir);
         }
         if (typeof value === 'object') {
-            value = JSON.stringify(value)
+            value = JSON.stringify(value);
         }
         if (type === 'push') {
-            return await redis.rpush(key, value)
+            return await redis.rpush(key, value);
         }
-        return await redis.lpush(key, value)
+        return await redis.lpush(key, value);
     }
 
     /**
@@ -48,11 +48,12 @@ class CacheService extends Service {
      * @return { String } 返回成功字符串OK
      */
     async set(key, value, expir = 0) {
-        const { redis } = this.app
+        const { redis } = this.app;
         if (expir === 0) {
-            return await redis.set(key, JSON.stringify(value))
+            return await redis.set(key, JSON.stringify(value));
         }
-        return await redis.set(key, JSON.stringify(value), 'EX', expir)
+        return await redis.set(key, JSON.stringify(value), 'EX', expir);
+
     }
 
     /**
@@ -61,9 +62,9 @@ class CacheService extends Service {
      * @return { String | array | Object } 返回获取的数据
      */
     async get(key) {
-        const { redis } = this.app
-        const result = await redis.get(key)
-        return JSON.parse(result)
+        const { redis } = this.app;
+        const result = await redis.get(key);
+        return JSON.parse(result);
     }
 
     /**
@@ -73,11 +74,12 @@ class CacheService extends Service {
      * @return { Number } 返回递增值
      */
     async incr(key, number = 1) {
-        const { redis } = this.app
+        const { redis } = this.app;
         if (number === 1) {
-            return await redis.incr(key)
+            return await redis.incr(key);
         }
-        return await redis.incrby(key, number)
+        return await redis.incrby(key, number);
+
     }
 
     /**
@@ -86,8 +88,8 @@ class CacheService extends Service {
      * @return { Number } 返回数据长度
      */
     async strlen(key) {
-        const { redis } = this.app
-        return await redis.strlen(key)
+        const { redis } = this.app;
+        return await redis.strlen(key);
     }
 
     /**
@@ -95,16 +97,16 @@ class CacheService extends Service {
      * @param {String} key
      */
     async remove(key) {
-        const { redis } = this.app
-        return await redis.del(key)
+        const { redis } = this.app;
+        return await redis.del(key);
     }
 
     /**
      * 清空缓存
      */
     async clear() {
-        return await this.app.redis.flushall()
+        return await this.app.redis.flushall();
     }
 }
 
-module.exports = CacheService
+module.exports = CacheService;
