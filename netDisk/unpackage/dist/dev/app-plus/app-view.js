@@ -367,6 +367,9 @@ var render = function() {
           key: item,
           attrs: { _i: "18-" + $30 },
           on: {
+            click: function($event) {
+              return _vm.$handleViewEvent($event)
+            },
             select: function($event) {
               return _vm.$handleViewEvent($event)
             }
@@ -2055,64 +2058,100 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-uni-view",
-    { staticClass: _vm._$g(0, "sc"), attrs: { _i: 0 } },
+    { attrs: { _i: 0 } },
     [
-      _c("v-uni-text", {
-        staticClass: _vm._$g(1, "sc"),
-        class: _vm._$g(1, "c"),
-        staticStyle: { "font-size": "60rpx" },
-        attrs: { _i: 1 }
-      }),
       _c(
         "v-uni-view",
         {
-          staticClass: _vm._$g(2, "sc"),
-          staticStyle: { "line-height": "1.2" },
-          attrs: { _i: 2 }
-        },
-        [
-          _c(
-            "v-uni-text",
-            { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
-            [_vm._v(_vm._$g(3, "t0-0"))]
-          ),
-          _c(
-            "v-uni-text",
-            { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
-            [_vm._v(_vm._$g(4, "t0-0"))]
-          )
-        ],
-        1
-      ),
-      _c(
-        "v-uni-view",
-        {
-          staticClass: _vm._$g(5, "sc"),
-          staticStyle: { width: "70rpx", height: "70rpx" },
-          attrs: { _i: 5 },
+          staticClass: _vm._$g(1, "sc"),
+          attrs: { "hover-class": "bg-light", _i: 1 },
           on: {
             click: function($event) {
-              return _vm.$handleViewEvent($event, { stop: true })
+              return _vm.$handleViewEvent($event)
             }
           }
         },
         [
+          _c("v-uni-text", {
+            staticClass: _vm._$g(2, "sc"),
+            class: _vm._$g(2, "c"),
+            staticStyle: { "font-size": "60rpx" },
+            attrs: { _i: 2 }
+          }),
+          _c(
+            "v-uni-view",
+            {
+              staticClass: _vm._$g(3, "sc"),
+              staticStyle: { "line-height": "1.2" },
+              attrs: { _i: 3 }
+            },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
+                [_vm._v(_vm._$g(4, "t0-0"))]
+              ),
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
+                [_vm._v(_vm._$g(5, "t0-0"))]
+              )
+            ],
+            1
+          ),
           _vm._$g(6, "i")
-            ? _c("v-uni-text", {
-                staticClass: _vm._$g(6, "sc"),
-                staticStyle: { height: "25rpx", width: "25rpx" },
-                attrs: { _i: 6 }
-              })
-            : _c("v-uni-text", {
-                staticClass: _vm._$g(7, "sc"),
-                staticStyle: { "font-size": "40rpx" },
-                attrs: { _i: 7 }
-              })
+            ? _c(
+                "v-uni-view",
+                { staticClass: _vm._$g(6, "sc"), attrs: { _i: 6 } },
+                [
+                  _vm._t(
+                    "default",
+                    [
+                      _c(
+                        "v-uni-view",
+                        {
+                          staticClass: _vm._$g(8, "sc"),
+                          staticStyle: { width: "70rpx", height: "70rpx" },
+                          attrs: { _i: 8 },
+                          on: {
+                            click: function($event) {
+                              return _vm.$handleViewEvent($event, {
+                                stop: true
+                              })
+                            }
+                          }
+                        },
+                        [
+                          _vm._$g(9, "i")
+                            ? _c("v-uni-text", {
+                                staticClass: _vm._$g(9, "sc"),
+                                staticStyle: {
+                                  height: "25rpx",
+                                  width: "25rpx"
+                                },
+                                attrs: { _i: 9 }
+                              })
+                            : _c("v-uni-text", {
+                                staticClass: _vm._$g(10, "sc"),
+                                staticStyle: { "font-size": "40rpx" },
+                                attrs: { _i: 10 }
+                              })
+                        ],
+                        1
+                      )
+                    ],
+                    { _i: 7 }
+                  )
+                ],
+                2
+              )
+            : _vm._e()
         ],
         1
-      )
+      ),
+      _vm._t("bottom", null, { _i: 11 })
     ],
-    1
+    2
   )
 }
 var recyclableRender = false
@@ -2148,7 +2187,7 @@ __webpack_require__.r(__webpack_exports__);
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 
 {
-  props: ["item", "index"],
+  props: ["item", "index", "showRight"],
   data: function data() {
     return {
       wxsProps: {} };
