@@ -147,6 +147,7 @@
 						type: 'video',
 						name: 'uniapp实战教程.mp4',
 						create_time: '2020-10-21 08:00',
+						data: 'https://student-manage-ll.oss-cn-beijing.aliyuncs.com/%E4%BD%9C%E4%B8%9A%E6%BC%94%E7%A4%BA%E8%A7%86%E9%A2%91/wenwen.mp4',
 						checked: false
 					},
 					{
