@@ -23,7 +23,7 @@
       </view>
     </view>
     <view class="bg-light" style="height: 20rpx;"></view>
-    <view class="flex justify-between p-3">
+    <view class="flex justify-between p-3" @click="doEvent">
       <text class="text-muted font">设置</text>
       <image src="../../static/right.png" mode="" style="width:40rpx;height: 40rpx;"></image>
     </view>
@@ -35,7 +35,13 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+	  doEvent(){
+		  uni.navigateTo({
+		  	url: '../login/login' 
+		  });
+	  }
+  }
 };
 </script>
 
