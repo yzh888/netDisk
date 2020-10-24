@@ -88,6 +88,59 @@ class FileController extends Controller {
 
     ctx.apiFail('上传失败')
   }
+
+  async list() {
+    const { ctx, app }= this
+    const user_id = ctx.authUser.id
+    ctx.validate({
+      file_id:{
+        required:true,
+        type:'int',
+        defValue: 0,
+        desc: '目录id',
+      },
+      orderby:{
+        required: false,
+        type: 'string',
+        defValue: 'name',
+        range:{
+          in: ['name','created_time'],
+        },
+        desc:'排序',
+      },
+      type:{
+        required:false,
+        type:'string',
+        desc:'类型',
+      },
+    })
+
+    const { file_id, orderby, type } = ctx.query
+
+    let where = {
+      user_id,
+      file_id,
+    }
+
+    if(type&& type !== 'all'){
+      const Op = app.Sequelize.Op
+      where.ext = {
+        [Op.like]: type + '%',
+      }
+    }
+
+    let rows = await app.model.File.findAll({
+      where,
+      order: [
+        ['isdir', 'desc'],
+        [orderby, 'desc'],
+      ],
+    })
+
+    ctx.apiSuccess({
+      rows,
+    })
+  }
 }
 
 module.exports = FileController
