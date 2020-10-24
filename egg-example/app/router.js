@@ -29,4 +29,6 @@ module.exports = app => {
   router.get('/file/search', controller.file.search);
   //创建分享
   router.post('/share/create', controller.share.create);
+  //我的分享列表
+  router.get('/share/list', controller.share.list);
 };
