@@ -121,7 +121,7 @@ class UserController extends Controller {
     async logout() {
         const { ctx, service } = this;
         const currentUserId = ctx.authUser.id;
-        if (!await service.cache.remove('user_' + currentUserId)) {
+        if (!(await service.cache.remove('user_' + currentUserId))) {
             ctx.throw(400, '退出登录失败');
         }
         ctx.apiSuccess('退出登录成功');
