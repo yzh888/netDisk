@@ -11,4 +11,6 @@ module.exports = app => {
   router.post("/reg", controller.user.reg);
   //登录
   router.post("/login", controller.user.login);
+  // 退出登录
+  router.post('/logout', controller.user.logout);
 };

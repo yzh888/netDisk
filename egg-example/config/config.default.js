@@ -84,6 +84,10 @@ module.exports = appInfo => {
     secret: 'qhdgw@45ncashdaksh2!#@3nxjdas*_672',
   };
 
+  config.auth = {
+    match: ['/logout', '/upload', '/getSize', '/file', 'share'],
+  }
+
   return {
     ...config,
     ...userConfig,
