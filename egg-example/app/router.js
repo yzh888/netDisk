@@ -33,4 +33,6 @@ module.exports = app => {
   router.get('/share/list', controller.share.list);
   //查看分享
   router.get('/share/:sharedurl', controller.share.read);
+  //保存到自己网盘
+  router.post('/share/save_to_self', controller.share.saveToSelf);
 };
