@@ -345,7 +345,7 @@ export default {
 					break;
 			}
 		},
-		//搜索功能，关键字为空走所有数据请求接口
+		//搜索功能，关键字为空走所有数据请求接口,否则文本框关键字
 		search(e){
 			if(e.detail.value == ''){
 				return this.getData();
