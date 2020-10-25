@@ -103,10 +103,9 @@
 				]
 			}
 		},
-		onLoad() {
-
-		},
+		
 		methods: {
+			//切换排序
 			changeTab(index){
 				this.tabIndex = index;
 			}

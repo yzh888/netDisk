@@ -22,24 +22,26 @@ class FileController extends Controller {
         required: true,
         type: 'int',
         defValue: 0,
-        desc: 'img',
+        desc: '目录id',
       },
     })
 
+    const file = ctx.request.files[0]
+
     const file_id = ctx.query.file_id
     console.log(file_id + '<<<<<<<<<<')
+    let prefixPath = ''
     // 目录id是否存在
     if (file_id > 0) {
       // 目录是否存在
-      await service.file.isDirExist(file_id)
+      prefixPath = await service.file.seachDir(file_id)
     }
     //取得上传的文件
-    const file = ctx.request.files[0]
+    if (file_id === 0) {
+      prefixPath = '/'
+    }
 
 
-    // 根据file_id一直向上找到顶层目录
-    const prefixPath = await service.file.seachDir(file_id)
-    console.log(prefixPath);
     // 拼接出最终文件上传目录
     const name = prefixPath + ctx.genID(10) + path.extname(file.filename)
 
@@ -75,7 +77,7 @@ class FileController extends Controller {
         user_id: currentUser.id,
         size: parseInt(s),
         isdir: 0,
-        url: result.url,
+        url: result.url.replace('http', 'https'),
       }
       let res = await app.model.File.create(addData)
 

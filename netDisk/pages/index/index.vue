@@ -144,48 +144,7 @@
 						name: '按时间排序'
 					}
 				],
-				list: [{
-						type: 'dir',
-						name: '我的笔记',
-						create_time: '2020-10-21 08:00',
-						checked: false
-					},
-					{
-						type: 'image',
-						name: '风景.jpg',
-						create_time: '2020-10-21 08:00',
-						data: 'https://pic-go-test.oss-cn-hangzhou.aliyuncs.com/img/53.jpeg',
-						checked: false,
-						download: 100
-					},
-					{
-						type: 'image',
-						name: '壁纸.jpg',
-						create_time: '2020-10-21 08:00',
-						data: 'https://pic-go-test.oss-cn-hangzhou.aliyuncs.com/img/53.jpeg',
-						checked: false,
-						download: 50
-					},
-					{
-						type: 'video',
-						name: 'uniapp实战教程.mp4',
-						create_time: '2020-10-21 08:00',
-						data: 'https://student-manage-ll.oss-cn-beijing.aliyuncs.com/%E4%BD%9C%E4%B8%9A%E6%BC%94%E7%A4%BA%E8%A7%86%E9%A2%91/wenwen.mp4',
-						checked: false
-					},
-					{
-						type: 'text',
-						name: '记事本.txt',
-						create_time: '2020-10-21 08:00',
-						checked: false
-					},
-					{
-						type: 'none',
-						name: '压缩包.rar',
-						create_time: '2020-10-21 08:00',
-						checked: false
-					}
-				],
+				list: [],
 				addList: [{
 					icon: "icon-file-b-6",
 					color: "text-success",
@@ -210,20 +169,32 @@
 			index: 0
 		},
 		onLoad() {
-			uni.request({
-				url: 'http://localhost:7001/list',
-				method: 'GET',
-				success: res => {
-					this.list = res.data.data;
-					console.log(res.data.data)
-				}
-			})
+			this.getData();
 		},
 		methods: {
-			doEvent(){
-					  uni.navigateTo({
-					  	url: '../login/login' 
-					  });
+			formatList(list){
+				return list.map(item =>{
+					let type = 'none';
+					if(item.isdir === 1){
+						type = 'dir';
+					}else{
+						type = item.ext.split('/')[0] || 'none';
+					}
+					return{
+						type,
+						checked: false,
+						...item
+					};
+				});
+			},
+			getData() {
+				this.$H.get('/file?file_id=0',{
+					token: true
+				})
+				.then(res => {
+					console.log(res);
+					this.list = this.formatList(res.rows);
+				});
 			},
 			openSortDialog() {
 				this.$refs.sort.open();
@@ -241,14 +212,13 @@
 							return item.type === 'image';
 						});
 						uni.previewImage({
-							current: item.data,
-							urls: images.map(item => item.data)
+							current: item.url,
+							urls: images.map(item => item.url)
 						});
 						break;
 					case 'video':
-						console.log('f')
 						uni.navigateTo({
-							url: '../video/video?url=' + item.data + '&title=' + item.name
+							url: '../video/video?url=' + item.url + '&title=' + item.name
 						});
 						break;
 					default:
