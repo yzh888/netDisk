@@ -220,6 +220,11 @@
 			})
 		},
 		methods: {
+			doEvent(){
+					  uni.navigateTo({
+					  	url: '../login/login' 
+					  });
+			},
 			openSortDialog() {
 				this.$refs.sort.open();
 			},

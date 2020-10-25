@@ -2,7 +2,6 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
-			console.log(this.$store.state.test);
 		},
 		onShow: function() {
 			console.log('App Show');

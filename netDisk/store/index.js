@@ -12,7 +12,8 @@ const store = new Vuex.Store({
 		testvuex:false,
         colorIndex: 0,
         colorList: ['#FF0000','#00FF00','#0000FF'],
-		test: 123
+		user: null,
+		token: null,
 	},
 	mutations: {
 		login(state, provider) {
@@ -42,6 +43,13 @@ const store = new Vuex.Store({
         }
     },
 	actions: {
+		login({ state },user){
+			state.user = user
+			state.token = user.token
+			
+			uni.setStorageSync('user',JSON.stringify(user))
+			uni.setStorageSync('token',user.token)
+		},
 		// lazy loading openid
 		getUserOpenId: async function ({
 			commit,
