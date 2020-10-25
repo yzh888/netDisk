@@ -57,6 +57,7 @@
 					type="text"
 					class="bg-light font-md rounded-circle"
 					placeholder="搜索网盘文件"
+					@input="search"
 				/>
 			</view>
 		</view>
@@ -344,6 +345,19 @@ export default {
 					break;
 			}
 		},
+		//搜索功能，关键字为空走所有数据请求接口
+		search(e){
+			if(e.detail.value == ''){
+				return this.getData();
+			}
+			this.$H
+				.get('/file/search?keyword=' + e.detail.value,{
+					token: true
+				})
+				.then(res => {
+					this.list = this.formatList(res.rows);
+				});
+		},
 		select(e) {
 			console.log(e.value);
 			this.list[e.index].checked = e.value;
@@ -359,13 +373,32 @@ export default {
 			switch (item.name) {
 				case '删除': 
 					this.$refs.delete.open(close => {
+						uni.showLoading({
+							title:'删除中...',
+							mask:false
+						});
+						let ids = this.checkList.map(item => item.id).join(',');
 						//对list进行过滤，留下未被选中的
-						this.list = this.list.filter(item => !item.checked);
+						this.$H
+						.post( 
+						'/file/delete',
+						{
+							ids
+						},
+						{token:true}
+						)
+						.then(res => {
+							this.getData();
+							uni.showToast({
+								title:'删除成功',
+								icon:'none'
+							});
+							uni.hideLoading();
+						})
+						.catch(err => {
+							uni.hideLoading();
+						});
 						close();
-						uni.showToast({
-							title: '删除成功',
-							icon: 'none'
-						}); 
 					});
 					break;
 				case '重命名':

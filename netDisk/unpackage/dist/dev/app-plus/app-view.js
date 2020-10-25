@@ -387,7 +387,12 @@ var render = function() {
               _c("v-uni-input", {
                 staticClass: _vm._$g(20, "sc"),
                 staticStyle: { height: "70rpx", "padding-left": "70rpx" },
-                attrs: { type: "text", placeholder: "搜索网盘文件", _i: 20 }
+                attrs: { type: "text", placeholder: "搜索网盘文件", _i: 20 },
+                on: {
+                  input: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
+                }
               })
             ],
             1
