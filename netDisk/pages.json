@@ -7,7 +7,16 @@
 					"titleNView": false
 				}
 			}
-		}, {
+		}, 
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/list/list",
 			"style": {
 				"navigationBarTitleText": "传输列表",
