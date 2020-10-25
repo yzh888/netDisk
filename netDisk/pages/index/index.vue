@@ -379,7 +379,23 @@ export default {
 							});
 						}
 						//更新该元素的name值，实时看到效果
-						this.checkList[0].name = this.renameValue;
+						this.$H
+							.post(
+							'/file/rename',
+							{
+								id: this.checkList[0].id,
+								file_id: this.file_id,
+								name: this.renameValue
+							},
+							{ token: true }
+							)
+							.then(res => {
+								this.checkList[0].name = this.renameValue;
+								uni.showToast({
+									title:'重命名成功',
+									icon:'none'
+								});
+							});
 						close();
 					});
 					break;
