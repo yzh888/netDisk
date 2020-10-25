@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+
 const store = new Vuex.Store({
 	state: {
 		hasLogin: false,
@@ -10,7 +11,8 @@ const store = new Vuex.Store({
 		openid: null,
 		testvuex:false,
         colorIndex: 0,
-        colorList: ['#FF0000','#00FF00','#0000FF']
+        colorList: ['#FF0000','#00FF00','#0000FF'],
+		test: 123
 	},
 	mutations: {
 		login(state, provider) {
