@@ -152,7 +152,21 @@ export default {
   methods: {
     changeTab(index) {
       this.tabIndex = index;
-    }
+    },
+	onNavigationBarButtonTap(){
+		uni.showModal({
+			content:'是否要清除传输记录？',
+			success: res => {
+				if(res.confirm){
+					this.$store.dispatch('clearList');
+					uni.showToast({
+						title:'清除成功',
+						icon:'none'
+					});
+				}
+			}
+		});
+	},
   }
 };
 </script>
