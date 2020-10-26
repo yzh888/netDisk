@@ -1,95 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex)
-
 import $H from '../common/request.js';
-
-const store = new Vuex.Store({
+export default new Vuex.Store({
 	state: {
-		hasLogin: false,
-		loginProvider: "",
-		openid: null,
-		testvuex: false,
-		colorIndex: 0,
-		colorList: ['#FF0000', '#00FF00', '#0000FF'],
 		user: null,
 		token: null,
 		uploadList: [],
 		downlist: [],
 	},
-	// mutations: {
-	// 	login(state, provider) {
-	// 		state.hasLogin = true;
-	// 		state.loginProvider = provider;
-	// 	},
-	// 	logout(state) {
-	// 		state.hasLogin = false
-	// 		state.openid = null
-	// 	},
-	// 	setOpenid(state, openid) {
-	// 		state.openid = openid
-	// 	},
-	// 	setTestTrue(state){
-	// 		state.testvuex = true
-	// 	},
-	// 	setTestFalse(state){
-	// 		state.testvuex = false
-	// 	},
-	//        setColorIndex(state,index){
-	//            state.colorIndex = index
-	//        }
-	// },
-	//    getters:{
-	//        currentColor(state){
-	//            return state.colorList[state.colorIndex]
-	//        }
-	//    },
 	actions: {
-		//创建上传任务
-		createUploadJob({
-			state
-		}, obj) {
-			state.uploadList.unshift(obj)
-			uni.setStorage({
-				key: "uploadList_" + state.user.id,
-				data: JSON.stringify(state.uploadList)
-			})
-		},
-		//更新上传任务
-		updateUploadJob({
-			state
-		}, obj) {
-			let i = state.uploadList.findIndex(item => item.key === obj.key)
-			if (i !== -1) {
-				state.uploadList[i].progresss = obj.progress
-				state.uploadList[i].status = obj.status
-				uni.setStorage({
-					key: "uploadList_" + state.user.id,
-					data: JSON.stringify(state.uploadList)
-				})
-			}
-		},
-		initList({
-			state
-		}) {
-			if (state.user) {
-				let d = uni.getStorageSync("downlist_" + state.user.id)
-				let u = uni.getStorageSync("uploadList_" + state.user.id)
-
-				state.downlist = d ? JSON.parse(d) : [],
-					state.uploadList = u ? JSON.parse(u) : []
-			}
-		},
-		login({
-			state
-		}, user) {
-			state.user = user
-			state.token = user.token
-
-			uni.setStorageSync('user', JSON.stringify(user))
-			uni.setStorageSync('token', user.token)
-		},
 		logout({
 			state
 		}) {
@@ -100,11 +20,18 @@ const store = new Vuex.Store({
 			state.token = null
 			uni.removeStorageSync('user')
 			uni.removeStorageSync('token')
-			uni.removeStorageSync('dirs')
 
 			uni.reLaunch({
 				url: '/pages/login/login'
 			});
+		},
+		login({
+			state
+		}, user) {
+			state.user = user
+			state.token = user.token
+			uni.setStorageSync('user', JSON.stringify(user))
+			uni.setStorageSync('token', user.token)
 		},
 		initUser({
 			state
@@ -121,34 +48,60 @@ const store = new Vuex.Store({
 			state.user.total_size = e.total_size
 			state.user.used_size = e.used_size
 		},
-		// lazy loading openid
-		// getUserOpenId: async function ({
-		// 	commit,
-		// 	state
-		// }) {
-		// 	return await new Promise((resolve, reject) => {
-		// 		if (state.openid) {
-		// 			resolve(state.openid)
-		// 		} else {
-		// 			uni.login({
-		// 				success: (data) => {
-		// 					commit('login')
-		// 					setTimeout(function () { //模拟异步请求服务器获取 openid
-		// 						const openid = '123456789'
-		// 						console.log('uni.request mock openid[' + openid + ']');
-		// 						commit('setOpenid', openid)
-		// 						resolve(openid)
-		// 					}, 1000)
-		// 				},
-		// 				fail: (err) => {
-		// 					console.log('uni.login 接口调用失败，将无法正常使用开放接口等服务', err)
-		// 					reject(err)
-		// 				}
-		// 			})
-		// 		}
-		// 	})
-		// }
+		initList({
+			state
+		}) {
+			if (state.user) {
+				let d = uni.getStorageSync("downlist_" + state.user.id)
+				let u = uni.getStorageSync("uploadList_" + state.user.id)
+
+				state.downlist = d ? JSON.parse(d) : []
+				state.uploadList = u ? JSON.parse(u) : []
+			}
+		},
+		createUploadJob({
+			state
+		}, obj) {
+			state.uploadList.unshift(obj)
+			uni.setStorage({
+				key: "uploadList_" + state.user.id,
+				data: JSON.stringify(state.uploadList)
+			})
+		},
+		updateUploadJob({
+			state
+		}, obj) {
+			let i = state.uploadList.findIndex(item => item.key === obj.key)
+			if (i !== -1) {
+				state.uploadList[i].progress = obj.progress
+				state.uploadList[i].status = obj.status
+				uni.setStorage({
+					key: "uploadList_" + state.user.id,
+					data: JSON.stringify(state.uploadList)
+				})
+			}
+		},
+		createDownLoadJob({
+			state
+		}, obj) {
+			state.downlist.unshift(obj)
+			uni.setStorage({
+				key: "downlist_" + state.user.id,
+				data: JSON.stringify(state.downlist)
+			})
+		},
+		updateDownLoadJob({
+			state
+		}, obj) {
+			let i = state.downlist.findIndex(item => item.key === obj.key)
+			if (i !== -1) {
+				state.downlist[i].progress = obj.progress
+				state.downlist[i].status = obj.status
+				uni.setStorage({
+					key: "downlist_" + state.user.id,
+					data: JSON.stringify(state.downlist)
+				})
+			}
+		}
 	}
 })
-
-export default store

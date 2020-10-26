@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="bg-warning fixed-top">
+		<view class="bg-purple fixed-top">
 			<uni-status-bar></uni-status-bar>
 			<view class="flex border-bottom align-center" style="height: 44px;">
 				<view class="flex-1 flex">

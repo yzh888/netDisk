@@ -9,7 +9,7 @@
 					 hover-class="bg-hover-light" @tap="backUp" v-if="current">
 						<text class="iconfont icon-fanhui"></text>
 					</view>
-					<text class="font-md ml-3">{{ current ? current.name : '首页' }}</text>
+					<text class="font-md ml-3" style="color: white;">{{ current ? current.name : '首页' }}</text>
 				</template>
 				<template slot="right">
 					<view style="width: 60rpx;height: 60rpx;" class="flex align-center justify-center bg-light rounded-circle mr-3"
@@ -216,6 +216,49 @@
 			}
 		},
 		methods: {
+			download(){
+				this.checkList.forEach(item => {
+					if(item.isdir === 0){
+						const key = this.genID(8);
+						
+						let obj = {
+							name: item.name,
+							type: item.type,
+							size: item.size,
+							key,
+							progress: 0,
+							status: true,
+							created_time: new Date().getTime()
+						};
+						//创建下载任务
+						this.$store.dispatch('createDownLoadJob',obj);
+						let url = item.url;
+						let d = uni.downloadFile({
+							url,
+							success: res => {
+								if(res.statusCode === 200){
+									console.log('下载成功',res);
+									uni.saveFile({
+										tempFilePath:item.tempFilePath
+									});
+								}
+							}
+						});
+						d.onProgressUpdate(res => {
+							this.$store.dispatch('updateDownLoadJob',{
+								progress: res.progress,
+								status: true,
+								key
+							});
+						});
+					}
+				});
+				uni.showToast({
+					title:'已加入下载任务',
+					icon:'none'
+				});
+				this.handleCheckAll(false);
+			},
 			//生成唯一ID
 			genID(length) {
 				return Number(Math.random()
@@ -401,6 +444,9 @@
 								});
 							close();
 						});
+						break;
+					case '下载':
+						this.download();
 						break;
 					default:
 						break;
