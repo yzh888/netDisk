@@ -19,7 +19,7 @@
 	/* @import url("./common/uni.css"); */
 	/* @import './common/iconfont.css'; */
 	@import './common/icon.css';
-	@import './common/icon-file.css';
+	/* @import './common/icon-file.css'; */
 	/* @import './common/animate.css'; */
 	@import './common/free.css';
 	@import './common/common.css';

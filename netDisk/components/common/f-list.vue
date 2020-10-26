@@ -7,7 +7,7 @@
 		>
 			<text class="iconfont" :class="iconClass" style="font-size: 60rpx;"></text>
 			<view class="flex flex-column ml-3" style="line-height: 1.2;">
-				<text class="font-md">{{ item.name }}</text>
+				<text class="font-md text-ellipsis" style="width: 500rpx;">{{ item.name }}</text>
 				<text class="font-sm text-muted">{{ item.create_time }}</text>
 			</view>
 			<view v-if="showRight" class="ml-auto">

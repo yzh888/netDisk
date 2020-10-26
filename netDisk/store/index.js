@@ -10,11 +10,13 @@ const store = new Vuex.Store({
 		hasLogin: false,
 		loginProvider: "",
 		openid: null,
-		testvuex:false,
-        colorIndex: 0,
-        colorList: ['#FF0000','#00FF00','#0000FF'],
+		testvuex: false,
+		colorIndex: 0,
+		colorList: ['#FF0000', '#00FF00', '#0000FF'],
 		user: null,
 		token: null,
+		uploadList: [],
+		downlist: [],
 	},
 	// mutations: {
 	// 	login(state, provider) {
@@ -34,44 +36,88 @@ const store = new Vuex.Store({
 	// 	setTestFalse(state){
 	// 		state.testvuex = false
 	// 	},
- //        setColorIndex(state,index){
- //            state.colorIndex = index
- //        }
+	//        setColorIndex(state,index){
+	//            state.colorIndex = index
+	//        }
 	// },
- //    getters:{
- //        currentColor(state){
- //            return state.colorList[state.colorIndex]
- //        }
- //    },
+	//    getters:{
+	//        currentColor(state){
+	//            return state.colorList[state.colorIndex]
+	//        }
+	//    },
 	actions: {
-		login({ state },user){
+		//创建上传任务
+		createUploadJob({
+			state
+		}, obj) {
+			state.uploadList.unshift(obj)
+			uni.setStorage({
+				key: "uploadList_" + state.user.id,
+				data: JSON.stringify(state.uploadList)
+			})
+		},
+		//更新上传任务
+		updateUploadJob({
+			state
+		}, obj) {
+			let i = state.uploadList.findIndex(item => item.key === obj.key)
+			if (i !== -1) {
+				state.uploadList[i].progresss = obj.progress
+				state.uploadList[i].status = obj.status
+				uni.setStorage({
+					key: "uploadList_" + state.user.id,
+					data: JSON.stringify(state.uploadList)
+				})
+			}
+		},
+		initList({
+			state
+		}) {
+			if (state.user) {
+				let d = uni.getStorageSync("downlist_" + state.user.id)
+				let u = uni.getStorageSync("uploadList_" + state.user.id)
+
+				state.downlist = d ? JSON.parse(d) : [],
+					state.uploadList = u ? JSON.parse(u) : []
+			}
+		},
+		login({
+			state
+		}, user) {
 			state.user = user
 			state.token = user.token
-			
-			uni.setStorageSync('user',JSON.stringify(user))
-			uni.setStorageSync('token',user.token)
+
+			uni.setStorageSync('user', JSON.stringify(user))
+			uni.setStorageSync('token', user.token)
 		},
-		logout({state}){
-			$H.post('/logout',{},{
-				token:true
+		logout({
+			state
+		}) {
+			$H.post('/logout', {}, {
+				token: true
 			})
 			state.user = null
 			state.token = null
 			uni.removeStorageSync('user')
 			uni.removeStorageSync('token')
-				
+			uni.removeStorageSync('dirs')
+
 			uni.reLaunch({
-				url:'/pages/login/login'
+				url: '/pages/login/login'
 			});
 		},
-		initUser({state}){
+		initUser({
+			state
+		}) {
 			let user = uni.getStorageSync('user')
-			if(user){
+			if (user) {
 				state.user = JSON.parse(user)
 				state.token = state.user.token
 			}
 		},
-		updateSize({state},e){
+		updateSize({
+			state
+		}, e) {
 			state.user.total_size = e.total_size
 			state.user.used_size = e.used_size
 		},
