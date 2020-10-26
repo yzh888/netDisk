@@ -4,9 +4,13 @@
 			console.log('App Launch')
 			//初始化用户信息
 			this.$store.dispatch('initUser')
+			this.$store.dispatch('initList')
 		},
 		onShow: function() {
 			console.log('App Show')
+			if(this.$store.state.user){
+				this.$store.dispatch('getShareUrl');
+			}
 		},
 		onHide: function() {
 			console.log('App Hide')
