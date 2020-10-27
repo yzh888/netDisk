@@ -10,6 +10,15 @@ export default new Vuex.Store({
 		downlist: [],
 	},
 	actions: {
+		clearList({ state }){
+			if(state.user){
+				uni.removeStorageSync("downlist_"+state.user.id)
+				uni.removeStorageSync("uploadList_"+state.user.id)
+				
+				state.uploadList = []
+				state.downlist = []
+			}
+		},
 		getShareUrl({
 			state
 		}){
@@ -86,6 +95,7 @@ export default new Vuex.Store({
 				state.uploadList = u ? JSON.parse(u) : []
 			}
 		},
+		
 		createUploadJob({
 			state
 		}, obj) {

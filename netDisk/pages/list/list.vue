@@ -103,24 +103,7 @@ export default {
           name: '上传列表'
         }
       ],
-      list: [
-        {
-          type: 'image',
-          name: '风景.jpg',
-          data:
-            'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3311552614,3643030730&fm=26&gp=0.jpg',
-          create_time: '2019-13-14 00:00',
-          download: 100
-        },
-        {
-          type: 'image',
-          name: '风景.jpg',
-          data:
-            'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3311552614,3643030730&fm=26&gp=0.jpg',
-          create_time: '2019-13-14 00:00',
-          download: 50
-        }
-      ]
+      list: []
     };
   },
   computed: {
@@ -154,19 +137,19 @@ export default {
       this.tabIndex = index;
     },
 	onNavigationBarButtonTap(){
-		uni.showModal({
-			content:'是否要清除传输记录？',
-			success: res => {
-				if(res.confirm){
-					this.$store.dispatch('clearList');
-					uni.showToast({
-						title:'清除成功',
-						icon:'none'
-					});
-				}
-			}
-		});
-	},
+	    uni.showModal({
+	      content:'是否要清除传输记录？',
+	      success: res => {
+	        if(res.confirm){
+	          this.$store.dispatch('clearList');
+	          uni.showToast({
+	            title:'清除成功',
+	            icon:'none'
+	          });
+	        }
+	      }
+	    });
+	  },
   }
 };
 </script>
