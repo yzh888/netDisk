@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="p-3 flex align-center">
-			<image src="/static/default.jpg" style="width: 120rpx;height: 120rpx;" class="rounded-circle flex-shrink mr-3"></image>
+			<image src="/static/taoranran.jpg" style="width: 120rpx;height: 120rpx;" class="rounded-circle flex-shrink mr-3"></image>
 			<view class="flex-1 flex flex-column text-muted font">
 				<view class="flex align-end">
 					<text class="font-lg text-dark mr-2">{{user.nickname || user.username }}</text>
@@ -17,7 +17,7 @@
 				<text class="text-light-muted">总：{{ user.total_size | bytesToSize }}</text>
 				<text class="text-warning">已用：{{ user.used_size | bytesToSize }}</text>
 			</view>
-		</view>
+		</view> 
 		<view class="bg-light" style="height: 20rpx;"></view>
 		<view class="flex justify-between p-3">
 			<text class="text-muted font">设置</text>

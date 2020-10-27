@@ -35,4 +35,7 @@ module.exports = app => {
   router.get('/share/:sharedurl', controller.share.read);
   //保存到自己网盘
   router.post('/share/save_to_self', controller.share.saveToSelf);
+  //移动文件
+  router.post('/file/remove', controller.file.remove);
+
 };

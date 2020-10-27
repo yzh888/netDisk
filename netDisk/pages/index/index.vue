@@ -153,7 +153,7 @@
 				]
 			};
 		},
-		onLoad() { 
+		onLoad() {
 			let dirs = uni.getStorageSync('dirs');
 			if (dirs) {
 				this.dirs = JSON.parse(dirs);
@@ -216,23 +216,22 @@
 			}
 		},
 		methods: {
-			share(){
-				this.$H.post('/share/create',
-				{
-					file_id:this.checkList[0].id
-				},
-				{ token:true }
-				).then(res=>{
+			share() {
+				this.$H.post('/share/create', {
+					file_id: this.checkList[0].id
+				}, {
+					token: true
+				}).then(res => {
 					uni.showModal({
-						content:res,
-						showCancel:false,
-						success: result =>{
+						content: res,
+						showCancel: false,
+						success: result => {
 							uni.setClipboardData({
-								data:res,
+								data: res,
 								success: () => {
 									uni.showToast({
-										title:'复制成功',
-										icon:'none'
+										title: '复制成功',
+										icon: 'none'
 									});
 								}
 							});
@@ -240,11 +239,11 @@
 					})
 				})
 			},
-			download(){
+			download() {
 				this.checkList.forEach(item => {
-					if(item.isdir === 0){
+					if (item.isdir === 0) {
 						const key = this.genID(8);
-						
+
 						let obj = {
 							name: item.name,
 							type: item.type,
@@ -255,21 +254,21 @@
 							created_time: new Date().getTime()
 						};
 						//创建下载任务
-						this.$store.dispatch('createDownLoadJob',obj);
+						this.$store.dispatch('createDownLoadJob', obj);
 						let url = item.url;
 						let d = uni.downloadFile({
 							url,
 							success: res => {
-								if(res.statusCode === 200){
-									console.log('下载成功',res);
+								if (res.statusCode === 200) {
+									console.log('下载成功', res);
 									uni.saveFile({
-										tempFilePath:item.tempFilePath
+										tempFilePath: item.tempFilePath
 									});
 								}
 							}
 						});
 						d.onProgressUpdate(res => {
-							this.$store.dispatch('updateDownLoadJob',{
+							this.$store.dispatch('updateDownLoadJob', {
 								progress: res.progress,
 								status: true,
 								key
@@ -278,8 +277,8 @@
 					}
 				});
 				uni.showToast({
-					title:'已加入下载任务',
-					icon:'none'
+					title: '已加入下载任务',
+					icon: 'none'
 				});
 				this.handleCheckAll(false);
 			},
@@ -407,7 +406,35 @@
 			},
 			// 处理底部操作条事件
 			handleBottomEvent(item) {
+
 				switch (item.name) {
+
+					// case '移动':
+					// 	this.removeValue = this.checkList[0].file_id;
+					// 	this.$refs.remove.open(close => {
+					// 		if (this.removeValue == '') {
+					// 			return uni.showToast({
+					// 				title: '请选择移动的文件位置',
+					// 				icon: 'none'
+					// 			});
+					// 		}
+					// 		this.$H.post('/file/rename', {
+					// 			id: this.checkList[0].id,
+					// 			file_id: this.file_id,
+					// 			name: this.removeValue
+					// 		}, {
+					// 			token: true
+					// 		})
+					// 		then(res => {
+					// 			this.checkList[0].file_id = this.removeValue;
+					// 			uni.showToast({
+					// 				title: '移动成功',
+					// 				icon: 'none'
+					// 			});
+					// 		});
+					// 		close();
+					// 	});
+					// 	break;
 					case '删除':
 						this.$refs.delete.open(close => {
 							uni.showLoading({
@@ -491,6 +518,7 @@
 			handleAddEvent(item) {
 				this.$refs.add.close();
 				switch (item.name) {
+
 					case '上传图片':
 						//选择图片，限制九张
 						uni.chooseImage({
@@ -500,6 +528,21 @@
 								res.tempFiles.forEach(item => {
 									this.upload(item, 'image');
 								});
+							}
+						});
+						break;
+					case '上传视频':
+						uni.chooseVideo({
+							count: 1,
+							success: (res) => {
+								console.log(res);
+								let name = ''
+								let size = 0
+								name = res.tempFilePath.substring(res.tempFilePath.lastIndexOf('/') + 1)
+								size = res.size
+								this.upload({path:res.tempFilePath,name, type:'video',size},'video'
+									
+								);
 							}
 						});
 						break;

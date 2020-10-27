@@ -3850,7 +3850,7 @@ var render = function() {
           _c("v-uni-image", {
             staticClass: _vm._$g(2, "sc"),
             staticStyle: { width: "120rpx", height: "120rpx" },
-            attrs: { src: "/static/default.jpg", _i: 2 }
+            attrs: { src: "/static/taoranran.jpg", _i: 2 }
           }),
           _c(
             "v-uni-view",
