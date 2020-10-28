@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
 	<view style="height: 400rpx;" :style="margin-top:'+statusBarHeight'">
 		
 	</view>
@@ -20,4 +20,3 @@
 <style>
 
 </style>
- -->
