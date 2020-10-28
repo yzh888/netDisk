@@ -83,4 +83,7 @@ export default {
   box-sizing: border-box;
   position: relative;
 }
+.img {
+	
+}
 </style>
