@@ -24,7 +24,7 @@
     <view class="flex flex-wrap">
       <view class="list-item" v-for="i in 10" :key="i" @click="openLive">
         <image
-          src="../../static/tabbar/hometown.jpg"
+          src="../../static/taoranran.jpg"
           style="width: 365rpx;height: 365rpx;"
           class="rounded"
           mode="aspectFill"
@@ -83,7 +83,5 @@ export default {
   box-sizing: border-box;
   position: relative;
 }
-.img {
-	
-}
+
 </style>

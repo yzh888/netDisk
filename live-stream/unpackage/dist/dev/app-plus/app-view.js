@@ -472,7 +472,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../tools/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 10);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.list-item {\n  width: 375rpx;\n  height: 375rpx;\n  padding: 5rpx;\n  box-sizing: border-box;\n  position: relative;\n}\n", ""]);
+exports.push([module.i, "\n.list-item {\r\n  width: 375rpx;\r\n  height: 375rpx;\r\n  padding: 5rpx;\r\n  box-sizing: border-box;\r\n  position: relative;\n}\r\n\r\n", ""]);
 // Exports
 module.exports = exports;
 
