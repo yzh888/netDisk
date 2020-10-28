@@ -1,0 +1,23 @@
+<!-- <template>
+	<view style="height: 400rpx;" :style="margin-top:'+statusBarHeight'">
+		
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+
+</style>
+ -->
