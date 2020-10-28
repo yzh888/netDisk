@@ -19,7 +19,6 @@
         <image src="../../static/tabbar/2.jpg" style="width: 750rpx; height: 250rpx;"></image>
       </swiper-item>
     </swiper> -->
-	
 	<!-- 列表 -->
     <view class="flex flex-wrap">
       <view class="list-item" v-for="i in 10" :key="i" @click="openLive">
@@ -29,7 +28,7 @@
           class="rounded"
           mode="aspectFill"
         ></image>
-        <view
+        <view  
           class="rounded-circle px-2 flex align-center"
           style="position: absolute;left: 15rpx; top: 15rpx;background-color: rgba(0,0,0,0.4);"
         >
@@ -57,6 +56,8 @@
         </view>
       </view>
     
+	
+	
     <!-- <tab></tab> -->
   </view>
 </template>
