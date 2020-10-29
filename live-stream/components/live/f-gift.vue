@@ -17,7 +17,7 @@
 					 class="rounded-circle" mode=""></image>
 				</view>
 			</view>
-			<text class="text-warning font-lg ml-1">{{item.num}}</text>
+			<text class="text-warning font-lg ml-1">x{{item.num}}</text>
 		</cell>
 	</list>
 </template>
@@ -27,7 +27,7 @@
 	export default{
 		data(){
 			return{
-				defaultAvatar:"/static/taoranran.jpg",
+				defaultAvatar:"/static/me.jpg",
 				gifts:[]
 			}
 		},

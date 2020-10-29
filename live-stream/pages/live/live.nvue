@@ -10,7 +10,7 @@
 						<image src="../../static/taoranran.jpg" style="width: 70rpx;height: 70rpx;" class="rounded-circle" mode=""></image>
 					</view>
 					<view class="flex-1 flex flex-column justify-center">
-						<text class="text-white font">主播昵称</text>
+						<text class="text-white font">陶然然</text>
 						<text class="text-white font-sm">100</text>
 					</view>
 					<view class="p">
@@ -24,7 +24,7 @@
 				<view class="flex rounded-circle" style="width: 324rpx;background-color: rgba(0,0,0,0.4);">
 					<scroll-view scroll-y="true"  class="flex flex-1" style="width: 75rpx;">
 						<view class="p" v-for="i in 20" :key="i">
-							<image src="../../static/taoranran.jpg" style="width: 70rpx;height: 70rpx;" class="rounded-circle" mode=""></image>
+							<image src="../../static/me.jpg" style="width: 70rpx;height: 70rpx;" class="rounded-circle" mode=""></image>
 						</view>
 					</scroll-view>
 					<view class="p">
@@ -56,10 +56,7 @@
 		</view>
 		
 		<!-- 弹幕 -->
-		<view style="position:fixed;bottom: 120rpx;left: 0; right: 0;width: 750rpx;height: 300rpx;"
-		class="bg-main">
-			<text>弹幕区</text>
-		</view>
+		<f-danmu></f-danmu>
 		
 		<!-- 底部 -->
 		<view class="flex align-center justify-between fixed-bottom "
@@ -93,18 +90,20 @@
 
 <script>
 	import fGift from '@/components/live/f-gift.vue';
+	import fDanmu from '@/components/live/f-danmu.vue';
 	export default {
 		components:{
-			fGift
+			fGift,
+			fDanmu
 		},
 		mounted() {
 			setInterval(()=>{
 				this.$refs.gift.send({
 					username:"发送人",
 					avatar:"",
-					gift_name:"蛋糕",
-					gift_image:"/static/gift/3.png",
-					num:1
+					gift_name:"爱心",
+					gift_image:"/static/gift/7.png",
+					num:999
 				})
 			},3000)
 		},
@@ -129,5 +128,15 @@
 </script>
 
 <style>
-
+.btn{
+	height: 80rpx;
+	border-radius: 100rpx;
+	background-color: rgba(255,255,255,0.12);
+	align-items: center;
+	justify-content: center;
+}
+.btn-icon{
+	width: 80rpx;
+	margin-right: 20rpx;
+}
 </style>
