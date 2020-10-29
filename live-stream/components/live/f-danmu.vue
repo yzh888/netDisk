@@ -35,6 +35,11 @@
 			},2000)
 		},
 		methods:{
+			send(data){
+							this.list.push(data)
+							
+							this.toBottom()
+						},
 			toBottom(){
 				setTimeout(() => {
 					let len = this.list.length
