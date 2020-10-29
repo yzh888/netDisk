@@ -52,26 +52,64 @@
 			 <text style="width: 20rpx; height: 20rpx;" class="rounded-circle bg-danger mr-1"></text>
 			<text class="text-white font-sm">已结束</text>
 		</view>
-         
         </view>
-      </view>
+    </view>
     
-	
+	<!-- 列表 -->
+	<!-- <view class="flex flex-wrap">
+	<f-list class="list-item" v-for="(item, index) in list" :key="index"  @click="openLive(item)" :index="index"  @select="select"></f-list>
+	</view> -->
 	
     <!-- <tab></tab> -->
   </view>
 </template>
 
 <script>
+import fList from '@/components/common/f-list.vue';
 export default {
-  components: {},
+  components: {
+	  fList,
+  },
+  data() {
+  	return {
+  		list: [{
+			image:'../../static/taoranran.jpg',
+			text: 10,
+			static: '已结束',
+			title:'标题'
+		},
+		{
+			image:'../../static/taoranran.jpg',
+			text: 10,
+			static: '已结束',
+			title:'标题'
+		},
+		{
+			image:'../../static/taoranran.jpg',
+			text: 10,
+			static: '已结束',
+			title:'标题'
+		},
+		{
+			image:'../../static/taoranran.jpg',
+			text: 10,
+			static: '已结束',
+			title:'标题'
+		},
+		],
+		};
+  },
   onLoad() {},
   methods: {
     openLive() {
       uni.navigateTo({
         url: '../live/live'
       });
-    }
+    },
+	select(e) {
+		console.log(e.value);
+		this.list[e.index].static = e.value;
+	},
   }
 };
 </script>
