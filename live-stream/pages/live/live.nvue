@@ -43,9 +43,9 @@
 					<view class="p">
 						<text class="text-warning">金币</text>
 					</view>
-					<view class="flex-1 flex flex-column justify-center">
+					<!-- <view class="flex-1 flex flex-column justify-center">
 						<text class="text-white font">100</text>
-					</view>
+					</view> -->
 				</view>
 				
 			</view>
