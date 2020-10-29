@@ -20,7 +20,7 @@
       </swiper-item>
     </swiper> -->
 	<!-- 列表 -->
-    <view class="flex flex-wrap">
+   <!-- <view class="flex flex-wrap">
       <view class="list-item" v-for="i in 10" :key="i" @click="openLive">
         <image
           src="../../static/taoranran.jpg"
@@ -53,12 +53,10 @@
 			<text class="text-white font-sm">已结束</text>
 		</view>
         </view>
-    </view>
+    </view> -->
     
 	<!-- 列表 -->
-	<!-- <view class="flex flex-wrap">
-	<f-list class="list-item" v-for="(item, index) in list" :key="index"  @click="openLive(item)" :index="index"  @select="select"></f-list>
-	</view> -->
+	<f-list></f-list>
 	
     <!-- <tab></tab> -->
   </view>
@@ -72,31 +70,7 @@ export default {
   },
   data() {
   	return {
-  		list: [{
-			image:'../../static/taoranran.jpg',
-			text: 10,
-			static: '已结束',
-			title:'标题'
-		},
-		{
-			image:'../../static/taoranran.jpg',
-			text: 10,
-			static: '已结束',
-			title:'标题'
-		},
-		{
-			image:'../../static/taoranran.jpg',
-			text: 10,
-			static: '已结束',
-			title:'标题'
-		},
-		{
-			image:'../../static/taoranran.jpg',
-			text: 10,
-			static: '已结束',
-			title:'标题'
-		},
-		],
+  		list: [],
 		};
   },
   onLoad() {},
@@ -106,10 +80,6 @@ export default {
         url: '../live/live'
       });
     },
-	select(e) {
-		console.log(e.value);
-		this.list[e.index].static = e.value;
-	},
   }
 };
 </script>

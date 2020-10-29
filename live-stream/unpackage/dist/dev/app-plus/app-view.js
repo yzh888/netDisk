@@ -236,150 +236,7 @@ var render = function() {
         ],
         1
       ),
-      _c(
-        "v-uni-view",
-        { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
-        _vm._l(10, function(i, $10, $20, $30) {
-          return _c(
-            "v-uni-view",
-            {
-              key: i,
-              staticClass: _vm._$g("4-" + $30, "sc"),
-              attrs: { _i: "4-" + $30 },
-              on: {
-                click: function($event) {
-                  return _vm.$handleViewEvent($event)
-                }
-              }
-            },
-            [
-              _c("v-uni-image", {
-                staticClass: _vm._$g("5-" + $30, "sc"),
-                staticStyle: { width: "365rpx", height: "365rpx" },
-                attrs: {
-                  src: _vm._$g("5-" + $30, "a-src"),
-                  mode: "aspectFill",
-                  _i: "5-" + $30
-                }
-              }),
-              _c(
-                "v-uni-view",
-                {
-                  staticClass: _vm._$g("6-" + $30, "sc"),
-                  staticStyle: {
-                    position: "absolute",
-                    left: "15rpx",
-                    top: "15rpx",
-                    "background-color": "rgba(0,0,0,0.4)"
-                  },
-                  attrs: { _i: "6-" + $30 }
-                },
-                [
-                  _c("v-uni-text", {
-                    staticClass: _vm._$g("7-" + $30, "sc"),
-                    attrs: { _i: "7-" + $30 }
-                  }),
-                  _c(
-                    "v-uni-text",
-                    {
-                      staticClass: _vm._$g("8-" + $30, "sc"),
-                      attrs: { _i: "8-" + $30 }
-                    },
-                    [_vm._v("0")]
-                  )
-                ],
-                1
-              ),
-              _c(
-                "v-uni-view",
-                {
-                  staticClass: _vm._$g("9-" + $30, "sc"),
-                  staticStyle: {
-                    position: "absolute",
-                    right: "15rpx",
-                    top: "15rpx",
-                    "background-color": "rgba(0,0,0,0.4)"
-                  },
-                  attrs: { _i: "9-" + $30 }
-                },
-                [
-                  _c(
-                    "v-uni-text",
-                    {
-                      staticClass: _vm._$g("10-" + $30, "sc"),
-                      attrs: { _i: "10-" + $30 }
-                    },
-                    [_vm._v("人气:")]
-                  ),
-                  _c(
-                    "v-uni-text",
-                    {
-                      staticClass: _vm._$g("11-" + $30, "sc"),
-                      attrs: { _i: "11-" + $30 }
-                    },
-                    [_vm._v("0")]
-                  )
-                ],
-                1
-              ),
-              _c(
-                "v-uni-view",
-                {
-                  staticClass: _vm._$g("12-" + $30, "sc"),
-                  staticStyle: {
-                    position: "absolute",
-                    left: "15rpx",
-                    bottom: "15rpx"
-                  },
-                  attrs: { _i: "12-" + $30 }
-                },
-                [
-                  _c(
-                    "v-uni-text",
-                    {
-                      staticClass: _vm._$g("13-" + $30, "sc"),
-                      attrs: { _i: "13-" + $30 }
-                    },
-                    [_vm._v("标题")]
-                  )
-                ],
-                1
-              ),
-              _c(
-                "v-uni-view",
-                {
-                  staticClass: _vm._$g("14-" + $30, "sc"),
-                  staticStyle: {
-                    position: "absolute",
-                    right: "15rpx",
-                    bottom: "15rpx",
-                    "background-color": "rgba(0,0,0,0.4)"
-                  },
-                  attrs: { _i: "14-" + $30 }
-                },
-                [
-                  _c("v-uni-text", {
-                    staticClass: _vm._$g("15-" + $30, "sc"),
-                    staticStyle: { width: "20rpx", height: "20rpx" },
-                    attrs: { _i: "15-" + $30 }
-                  }),
-                  _c(
-                    "v-uni-text",
-                    {
-                      staticClass: _vm._$g("16-" + $30, "sc"),
-                      attrs: { _i: "16-" + $30 }
-                    },
-                    [_vm._v("已结束")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        }),
-        1
-      )
+      _c("f-list", { attrs: { _i: 3 } })
     ],
     1
   )
@@ -506,38 +363,54 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-uni-view",
-    { attrs: { _i: 0 } },
-    [
-      _c(
+    { staticClass: _vm._$g(0, "sc"), attrs: { _i: 0 } },
+    _vm._l(_vm._$g(1, "f"), function(item, index, $20, $30) {
+      return _c(
         "v-uni-view",
-        { attrs: { _i: 1 } },
+        {
+          key: item,
+          staticClass: _vm._$g("1-" + $30, "sc"),
+          attrs: { _i: "1-" + $30 },
+          on: {
+            click: function($event) {
+              return _vm.$handleViewEvent($event)
+            }
+          }
+        },
         [
           _c("v-uni-image", {
-            staticClass: _vm._$g(2, "sc"),
+            staticClass: _vm._$g("2-" + $30, "sc"),
             staticStyle: { width: "365rpx", height: "365rpx" },
-            attrs: { src: _vm._$g(2, "a-src"), mode: "aspectFill", _i: 2 }
+            attrs: {
+              src: _vm._$g("2-" + $30, "a-src"),
+              mode: "aspectFill",
+              _i: "2-" + $30
+            }
           }),
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(3, "sc"),
+              staticClass: _vm._$g("3-" + $30, "sc"),
               staticStyle: {
                 position: "absolute",
                 left: "15rpx",
                 top: "15rpx",
                 "background-color": "rgba(0,0,0,0.4)"
               },
-              attrs: { _i: 3 }
+              attrs: { _i: "3-" + $30 }
             },
             [
               _c("v-uni-text", {
-                staticClass: _vm._$g(4, "sc"),
-                attrs: { _i: 4 }
+                staticClass: _vm._$g("4-" + $30, "sc"),
+                attrs: { _i: "4-" + $30 }
               }),
               _c(
                 "v-uni-text",
-                { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
-                [_vm._v("0")]
+                {
+                  staticClass: _vm._$g("5-" + $30, "sc"),
+                  attrs: { _i: "5-" + $30 }
+                },
+                [_vm._v(_vm._$g("5-" + $30, "t0-0"))]
               )
             ],
             1
@@ -545,25 +418,31 @@ var render = function() {
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(6, "sc"),
+              staticClass: _vm._$g("6-" + $30, "sc"),
               staticStyle: {
                 position: "absolute",
                 right: "15rpx",
                 top: "15rpx",
                 "background-color": "rgba(0,0,0,0.4)"
               },
-              attrs: { _i: 6 }
+              attrs: { _i: "6-" + $30 }
             },
             [
               _c(
                 "v-uni-text",
-                { staticClass: _vm._$g(7, "sc"), attrs: { _i: 7 } },
+                {
+                  staticClass: _vm._$g("7-" + $30, "sc"),
+                  attrs: { _i: "7-" + $30 }
+                },
                 [_vm._v("人气:")]
               ),
               _c(
                 "v-uni-text",
-                { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
-                [_vm._v(_vm._$g(8, "t0-0"))]
+                {
+                  staticClass: _vm._$g("8-" + $30, "sc"),
+                  attrs: { _i: "8-" + $30 }
+                },
+                [_vm._v(_vm._$g("8-" + $30, "t0-0"))]
               )
             ],
             1
@@ -571,19 +450,22 @@ var render = function() {
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(9, "sc"),
+              staticClass: _vm._$g("9-" + $30, "sc"),
               staticStyle: {
                 position: "absolute",
                 left: "15rpx",
                 bottom: "15rpx"
               },
-              attrs: { _i: 9 }
+              attrs: { _i: "9-" + $30 }
             },
             [
               _c(
                 "v-uni-text",
-                { staticClass: _vm._$g(10, "sc"), attrs: { _i: 10 } },
-                [_vm._v("标题")]
+                {
+                  staticClass: _vm._$g("10-" + $30, "sc"),
+                  attrs: { _i: "10-" + $30 }
+                },
+                [_vm._v(_vm._$g("10-" + $30, "t0-0"))]
               )
             ],
             1
@@ -591,25 +473,28 @@ var render = function() {
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(11, "sc"),
+              staticClass: _vm._$g("11-" + $30, "sc"),
               staticStyle: {
                 position: "absolute",
                 right: "15rpx",
                 bottom: "15rpx",
                 "background-color": "rgba(0,0,0,0.4)"
               },
-              attrs: { _i: 11 }
+              attrs: { _i: "11-" + $30 }
             },
             [
               _c("v-uni-text", {
-                staticClass: _vm._$g(12, "sc"),
+                staticClass: _vm._$g("12-" + $30, "sc"),
                 staticStyle: { width: "20rpx", height: "20rpx" },
-                attrs: { _i: 12 }
+                attrs: { _i: "12-" + $30 }
               }),
               _c(
                 "v-uni-text",
-                { staticClass: _vm._$g(13, "sc"), attrs: { _i: 13 } },
-                [_vm._v("已结束")]
+                {
+                  staticClass: _vm._$g("13-" + $30, "sc"),
+                  attrs: { _i: "13-" + $30 }
+                },
+                [_vm._v(_vm._$g("13-" + $30, "t0-0"))]
               )
             ],
             1
@@ -617,7 +502,7 @@ var render = function() {
         ],
         1
       )
-    ],
+    }),
     1
   )
 }

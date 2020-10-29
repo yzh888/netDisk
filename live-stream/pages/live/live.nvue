@@ -43,17 +43,16 @@
 					<view class="p">
 						<text class="text-warning">金币</text>
 					</view>
-					<!-- <view class="flex-1 flex flex-column justify-center">
+					<view class="flex-1 flex flex-column justify-center">
 						<text class="text-white font">100</text>
-					</view> -->
+					</view>
 				</view>
 				
 			</view>
 			
-			<!-- 收到礼物 -->
-			<view class="bg-main" style="height: 300rpx;">
-				<text>礼物区</text>
-			</view>
+			<!-- 礼物区 -->
+			<f-gift ref="gift"></f-gift>
+			
 		</view>
 		
 		<!-- 弹幕 -->
@@ -72,7 +71,22 @@
 </template>
 
 <script>
+	import fGift from '@/components/live/f-gift.vue';
 	export default {
+		components:{
+			fGift
+		},
+		mounted() {
+			setInterval(()=>{
+				this.$refs.gift.send({
+					username:"发送人",
+					avatar:"",
+					gift_name:"蛋糕",
+					gift_image:"/static/gift/3.png",
+					num:1
+				})
+			},3000)
+		},
 		data() {
 			return {
 				statusBarHeight:0,
