@@ -28,8 +28,7 @@
 		<text class="text-white font">{{item.title}}</text>
 		</view>
 		<view class="rounded-circle px-2 flex align-center" style="position: absolute;right: 15rpx;bottom: 15rpx;background-color: rgba(0,0,0,0.4);">
-			 <text style="width: 20rpx; height: 20rpx;" class="rounded-circle mr-1" :class="item.static==='已结束' ? 'bg-danger':'bg-success'"></text>
-			 <!-- :style="{background-color:background-colors[index]}" -->
+			<text style="width: 20rpx; height: 20rpx;" class="rounded-circle mr-1" :class="item.static==='已结束' ? 'bg-danger':'bg-success'"></text>
 			<text class="text-white font-sm">{{item.static}}</text>
 		</view>
 		</view>
