@@ -101,12 +101,12 @@
 				<swiper :indicator-dots="true" :duration="500" style="height: 350rpx;" class="border-bottom border-top">
 					<swiper-item>
 						<view class="flex flex-wrap">
-							<view style="width: 187rpx;height: 175px;" class="flex flex-column justify-center align-center" v-for="(item, index) in gifts"
-							 :key="index" :class="giftActiveId === item.id ? 'border border-main' : ''" @click="giftActiveId = item.id">
-								<image :src="item.image" style="width: 100rpx;height: 100rpx;" class="rounded"></image>
+							<view class="flex flex-column justify-center align-center" style="width: 187rpx; height: 175rpx;" v-for="(item, index) in gifts"
+							 :key="index" :class="giftActiveId === item.id ? 'border boder-main' : ''" @click="giftActiveId = item.id">
+								<image :src="item.image" mode="" style="width: 100rpx; height: 100rpx;"></image>
 								<view class="flex mt-1">
 									<text class="text-warning font mr-1">{{ item.name }}</text>
-									<text class="text-secondary font">{{ item.coin }}</text>
+									<text class="text-secondary font">x{{ item.coin }}</text>
 								</view>
 							</view>
 						</view>
@@ -163,9 +163,9 @@
 			this.gifts = myGifts
 		},
 		methods: {
-			openCoin(){
+			openCoin() {
 				uni.navigateTo({
-					url:'../coin/coin'
+					url: '../coin/coin'
 				});
 			},
 			openGift() {
@@ -191,7 +191,7 @@
 					avatar: '',
 					gift_name: g.name,
 					gift_image: g.image,
-					num: 10
+					num: 99
 				})
 				this.closeGift()
 			},
