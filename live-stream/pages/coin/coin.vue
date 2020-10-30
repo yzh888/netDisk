@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import uniPopup from '../../components/uni-ui/uni-popup-dialog/uni-popup-dialog.vue';
-import uniPopupDialog from '../../components/uni-ui/uni-popup/uni-popup.vue';
+import uniPopup from '@/components/uni-ui/uni-popup/uni-popup.vue';
+import uniPopupDialog from '@/components/uni-ui/uni-popup/uni-popup-dialog.vue';
 export default {
   components: {
     uniPopup,
