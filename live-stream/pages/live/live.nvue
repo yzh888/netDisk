@@ -163,6 +163,11 @@
 			this.gifts = myGifts
 		},
 		methods: {
+			openCoin(){
+				uni.navigateTo({
+					url:'../coin/coin'
+				});
+			},
 			openGift() {
 				this.$refs.giftPopup.open()
 			},
