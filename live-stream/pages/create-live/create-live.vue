@@ -52,13 +52,11 @@
 					<text class="font-md">{{popupTitle}}</text>
 				</view>
 
-
 				<view v-if="popupType==='mode'">
 					<view class="flex align-center justify-center py-2" v-for="(item,index) in modeList" :key="index" :class="mode===item.type?'bg-main':''"
 					 @click="chooseMode(item)">
 						<text class="font-md" :class="mode === item.type?'text-white':''">{{item.desc}}</text>
 					</view>
-
 				</view>
 				
 				<view v-else-if="popupType === 'beauty'">
@@ -74,9 +72,9 @@
 				<view class="flex align-center justify-center" style="height: 90rpx;" hover-class="bg-light">
 					<text class="font-md">取消</text>
 				</view>
-
 			</view>
 		</uni-popup>
+		
 	</view>
 
 </template>
