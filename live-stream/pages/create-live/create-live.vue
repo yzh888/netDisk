@@ -85,181 +85,105 @@
 
 <script>
 	import uniPopup from '@/components/uni-ui/uni-popup/uni-popup.vue'
-
 	export default {
-
 		components: {
-
 			uniPopup
-
 		},
-
 		computed: {
-
 			popupTitle() {
-
 				let o = {
-
 					mode: "画质",
-
 					beauty: "美颜",
-
 					whiteness: "美白",
-
 				}
-
 				return o[this.popupType]
-
 			}
-
 		},
 
 		data() {
-
 			return {
-
 				url: '',
-
 				mode: 'SD',
-
 				enableCamera: true,
-
 				position: 'back',
-
 				beauty: 0,
-
 				whiteness: 0,
-
 				windowHeight: 0,
-
 				context: null,
-
 				statusBarHeight: 0,
-
 				modeList: [{
-
 					type: "SD",
-
 					desc: "标清"
-
 				}, {
-
 					type: "HD",
-
 					desc: "高清"
-
 				}, {
-
 					type: "FHD",
-
 					desc: "超清"
-
 				}],
-
 				popupType: "mode"
-
 			};
-
 		},
 
 		onLoad() {
-
 			let res = uni.getSystemInfoSync();
-
 			this.windowHeight = res.windowHeight;
-
 			this.statusBarHeight = res.statusBarHeight;
-
 		},
 
 		onReady() {
-
 			this.context = uni.createLivePusherContext('livePusher', this);
-
 			this.startPreview();
-
 		},
 
 		methods: {
-
 			handleSliderChange(e) {
-
 				this[this.popupType] = e.detail.value
-
 			},
 
 			chooseMode(item) {
-
 				this.mode = item.type
-
 				uni.showToast({
-
 					title: "画质切换为" + item.desc,
-
 					icon: 'none'
-
 				});
-
 				this.$refs.popup.close()
 
 			},
 
 			openPopup(type) {
-
 				this.popupType = type
-
 				this.$refs.popup.open()
-
 			},
 
 			startPreview() {
-
 				this.context.startPreview({
-
 					success: e => {
-
 						console.log(e);
-
 					}
-
 				});
-
 			},
 
 			statechange(e) {
-
 				console.log(e);
-
 			},
 
 			netstatus(e) {
-
 				console.log(e);
-
 			},
 
 			error(e) {
-
 				console.log(e);
-
 			},
 
 			switchCamera() {
-
 				this.context.switchCamera({
-
 					success: (e) => {
-
 						this.position = this.position === 'back' ? 'front' : 'back'
-
 					}
-
 				})
-
 			}
-
 		}
-
 	};
 </script>
 
