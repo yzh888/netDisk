@@ -175,7 +175,7 @@
 			error(e) {
 				console.log(e);
 			},
-
+			//切换摄像头
 			switchCamera() {
 				this.context.switchCamera({
 					success: (e) => {
@@ -186,7 +186,5 @@
 		}
 	};
 </script>
-
-
 
 <style></style>
