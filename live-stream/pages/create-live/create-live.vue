@@ -44,8 +44,6 @@
 			<text class="text-white font-md">开始视频直播</text>
 		</view>
 
-
-
 		<uni-popup type="bottom" ref="popup">
 			<view class="bg-white">
 				<view class="flex align-center justify-center border-bottom" style="height: 90rpx;">
@@ -58,11 +56,11 @@
 						<text class="font-md" :class="mode === item.type?'text-white':''">{{item.desc}}</text>
 					</view>
 				</view>
-				
+				<!-- 美颜 -->
 				<view v-else-if="popupType === 'beauty'">
 					<slider :min="0" :max="10" :step="1" :value="beauty" :block-size="18" show-value @change="handleSliderChange" />
 				</view>
-
+				<!-- 美白 -->
 				<view v-else>
 					<slider :min="0" :max="10" :step="1" :value="whiteness" :block-size="18" show-value @change="handleSliderChange" />
 				</view>
@@ -138,7 +136,7 @@
 			handleSliderChange(e) {
 				this[this.popupType] = e.detail.value
 			},
-
+			//画质选择
 			chooseMode(item) {
 				this.mode = item.type
 				uni.showToast({
