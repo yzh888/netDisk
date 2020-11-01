@@ -16,7 +16,11 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1604219570493_5741';
 
   // add your middleware config here
-  config.middleware = ['errorHandler'];
+  config.middleware = ['errorHandler','auth']
+
+  config.auth = {
+    match: ['/api/live/create'],
+  }
 
   // add your user config here
   const userConfig = {

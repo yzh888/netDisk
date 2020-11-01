@@ -40,4 +40,10 @@ module.exports = {
             result += chars[Math.floor(Math.random() * chars.length)]
         return result
     },
+    // 是否是移动端访问
+    ismobile() {
+        const userAgent = this.request.header['user-agent'].toLowerCase();
+        const pat_phone = /ipad|iphone os|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/;
+        return pat_phone.test(userAgent);
+    },
 }
