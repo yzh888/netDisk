@@ -14,7 +14,7 @@
 						<text class="text-white font-sm">100</text>
 					</view>
 					<view class="p">
-						<view class="rounded-circle flex align-center justify-center bg-danger" style="width: 70rpx;height: 70rpx;">
+						<view class="rounded-circle flex align-center justify-center bg-main" style="width: 70rpx;height: 70rpx;">
 							<text class="text-white">+</text>
 						</view>
 					</view>
@@ -27,7 +27,7 @@
 						</view>
 					</scroll-view>
 					<view class="p">
-						<view class="rounded-circle flex align-center justify-center bg-danger" style="width: 70rpx; height: 70rpx;">
+						<view class="rounded-circle flex align-center justify-center bg-main" style="width: 70rpx; height: 70rpx;">
 							<text class="text-white font-sm">1000</text>
 						</view>
 					</view>
