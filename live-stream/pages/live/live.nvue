@@ -1,7 +1,7 @@
 <template>
 	<view class="flex-1">
 
-		<video src="http://ivi.bupt.edu.cn/hls/cctv17hd.m3u8" autoplay controls='false' class="flex-1"></video>
+		<video src="https://yzhss.utools.club/live/FwlscTk7vwazU9VVwWTs.flv?sign=1604334147-97067e1aeeaaf8b2dce5f6b87eb69e03" autoplay controls='false' class="flex-1"></video>
 		<!-- 头部 -->
 		<view style="position: fixed;left: 0;right: 0;" :style="'margin-top:'+statusBarHeight+'px'">
 			<view style="height: 80rpx;" class="px-2 flex justify-between align-center">

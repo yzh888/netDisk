@@ -1,7 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
-
+const NodeMediaServer = require('node-media-server');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -16,7 +16,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1604219570493_5741';
 
   // add your middleware config here
-  config.middleware = ['errorHandler','auth']
+  config.middleware = ['errorHandler', 'auth']
 
   config.auth = {
     match: ['/api/live/create'],
@@ -95,6 +95,29 @@ module.exports = appInfo => {
       db: 2,
     },
   };
+
+  // 流媒体配置
+  config.mediaServer = {
+    rtmp: {
+      port: 23480,
+      chunk_size: 60000,
+      gop_cache: true,
+      ping: 30,
+      ping_timeout: 60
+    },
+    http: {
+      port: 23481,
+      allow_origin: '*'
+    },
+    auth: {
+      play: true,
+      publish: true,
+      secret: 'nodemedia2017privatekey',
+    },
+  };
+  var nms = new NodeMediaServer(config.mediaServer)
+  nms.run();
+
 
   return {
     ...config,
