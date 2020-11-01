@@ -1,22 +1,300 @@
 <template>
-	<view>
-		
-	</view>
+  <view class="flex-1">
+    <live-pusher
+      id="livePusher"
+      ref="livePusher"
+      class="livePusher"
+      :url="url"
+      :mode="mode"
+      :enable-camera="enableCamera"
+      :auto-focus="true"
+      :device-position="position"
+      :beauty="beauty"
+      :whiteness="whiteness"
+      aspect="9:16"
+      @statechange="statechange"
+      @netstatus="netstatus"
+      @error="error"
+      :style="'height:' + windowHeight + 'px;'"
+      style="width: 750rpx;"
+    ></live-pusher>
+    <view style="position: fixed; left: 0;right: 0;" :style="'top:' + statusBarHeight + 'px'">
+      <view class="px-2 flex justify-between align-center" style="height: 80rpx;">
+        <view style="width: 325rpx;background-color: rgba(0,0,0,0.4);" class="flex rounded-circle">
+          <view class="p">
+            <image
+              src="../../static/4.jpeg"
+              style="width: 70rpx;height: 70rpx;"
+              class="rounded-circle"
+            ></image>
+          </view>
+          <view class="flex-1 flex flex-column justify-center">
+            <text class="text-white font">陶然然</text>
+            <text class="text-white font-sm">888</text>
+          </view>
+          <view class="p">
+            <view
+              class="rounded-circle flex align-center justify-center bg-main"
+              style="width: 70rpx;height: 70rpx;"
+            >
+              <text class="text-white">+</text>
+            </view>
+          </view>
+        </view>
+        <view style="width: 325rpx;background-color: rgba(0,0,0,0.4);" class="flex rounded-circle">
+          <scroll-view scroll-x="true" class="flex-1 flex">
+            <view class="p" v-for="i in 20" :key="i">
+              <image
+                src="../../static/2.jpeg"
+                style="width: 70rpx; height: 70rpx;"
+                class="rounded-circle"
+              ></image>
+            </view>
+          </scroll-view>
+          <view class="p">
+            <view
+              class="rounded-circle flex align-center justify-center bg-main"
+              style="width: 70rpx;height: 70rpx;"
+            >
+              <text class="text-white font-sm">1000</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="px-2 my-2" style="height: 80rpx;">
+        <view class="flex rounded-circle align-center" style="width: 325rpx; background-color: rgba(0,0,0,0.4);">
+          <view class="p">
+            <text class="text-warning">金币</text>
+          </view>
+          <view class="flex-1 flex flex-column justify-center">
+            <text class="text-white font">100</text>
+          </view>
+        </view>
+      </view>
+      
+      <f-gift ref="gift"></f-gift>
+      
+      <f-danmu ref="danmu"></f-danmu>
+      <view class="flex align-center justify-between" style="position: fixed; left: 0;bottom: 0;right: 0;height: 120rpx;">
+        <view class="flex-1 flex flex-column align-center justify-center" v-for="(item,index) in btns" :key="index" @click="handleBottomEvent(item)">
+          <text class="iconfont text-white mb-1">{{item.icon}}</text>
+          <text class="text-white font">{{item.name}}</text>
+        </view>
+      </view>
+      
+      <uni-popup type="bottom" ref="popup">
+        <view class="bg-white">
+          <view class="flex align-center justify-center border-bottom" style="height: 90rpx;">
+            <text class="font-md">{{popupTitle}}</text>
+          </view>
+          <view v-if="popupType==='mode'">
+            <view class="flex align-center justify-center py-2" v-for="(item,index) in modeList" :key="index" :class="mode===item.type?'bg-main':''" @click="chooseMode(item)">
+              <text class="font-md" :class="mode === item.type?'text-white':''">{{item.desc}}</text>
+            </view>
+          </view>
+          
+          <view v-else-if="popupType==='beauty'">
+            <slider :min="0" :max="9" :step="1" :value="beauty" :block-size="18" show-value @change="handleSliderChange"/>
+          </view>
+          
+          <view v-else-if="popupType === 'whiteness'">
+            <slider :min="0" :max="9" :step="1" :value="whiteness" :block-size="18" show-value @change="handleSliderChange"/>
+          </view>
+          
+          <view v-else class="flex flex-wrap">
+            <view class="flex flex-column align-center justify-center" style="width: 150rpx;height: 150rpx;">
+              <text class="iconfont mb-1">&#xe611;</text>
+              <text class="font">暂停</text>
+            </view>
+            <view class="flex flex-column align-center justify-center" style="width: 150rpx;height: 150rpx;" @click="back">
+              <text class="iconfont mb-1">&#xe64d;</text>
+              <text class="font">退出</text>
+            </view>
+          </view>
+          <view class="f-divider"></view>
+          <view class="flex align-center justify-center" style="height: 90rpx;" hover-class="bg-light" @click="closePopup">
+            <text class="font-md">取消</text>
+          </view>
+        </view>
+      </uni-popup>
+    </view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			
-		}
-	}
+import fGift from '@/components/live/f-gift.vue';
+import fDanmu from '@/components/live/f-danmu.vue';
+import uniPopup from '@/components/uni-ui/uni-popup/uni-popup.vue';
+import myGifts from '@/common/gifts.js';
+export default{
+  components: {
+    fGift,
+    fDanmu,
+    uniPopup
+  },
+  data() {
+    return {
+      statusBarHeight: 0,
+      content: '',
+      gifts: [],
+      giftActiveId: 0,
+
+      url: '',
+      mode: 'SD',
+      enableCamera: true,
+      position: 'back',
+      beauty: 0,
+      whiteness: 0,
+      windowHeight: 0,
+      context: null,
+      modeList: [
+        {
+          type: 'SD',
+          desc: '标清'
+        },
+        {
+          type: 'HD',
+          desc: '高清'
+        },
+        {
+          type: 'FHD',
+          desc: '超清'
+        }
+      ],
+      popupType: 'mode',
+      btns: [
+        {
+          name: '翻转',
+          icon: '\ue605',
+          event: 'switchCamera'
+        },
+        {
+          name: '画质',
+          icon: '\ue60c',
+          event: 'openPopup',
+          params: 'mode'
+        },
+        {
+          name: '美颜',
+          icon: '\ue632',
+          event: 'openPopup',
+          params: 'beauty'
+        },
+        {
+          name: '美白',
+          icon: '\ue632',
+          event: 'openPopup',
+          params: 'whiteness'
+        },
+        {
+          name: '更多',
+          icon: '\ue84b',
+          event: 'openPopup',
+          params: 'more'
+        }
+      ]
+    };
+  },
+  onLoad(e) {
+    let res = uni.getSystemInfoSync();
+    this.statusBarHeight = res.statusBarHeight;
+    this.windowHeight = res.windowHeight;
+
+    let options = JSON.parse(e.options);
+    this.mode = options.mode;
+    this.position = options.position;
+    this.beauty = options.beauty;
+    this.whiteness = options.whiteness;
+
+    this.gifts = myGifts;
+  },
+  onReady() {
+    this.context = uni.createLivePusherContext('livePusher', this);
+    this.startPreview();
+  },
+  computed: {
+    popupTitle() {
+      let o = {
+        mode: '画质',
+        beauty: '美颜',
+        whiteness: '美白',
+        more: '更多'
+      };
+      return o[this.popupType];
+    }
+  },
+  methods: {
+    handleBottomEvent(item) {
+      this[item.event](item.params);
+    },
+    back() {
+      uni.showModal({
+        content: '是否要结束当前直播?',
+        success: res => {
+          if (res.confirm) {
+            uni.navigateBack({
+              delta: 1
+            });
+          }
+        }
+      });
+    },
+    chooseMode(item) {
+      this.mode = item.type;
+      uni.showToast({
+        title: '画质切换为' + item.desc,
+        icon: 'none'
+      });
+      this.$refs.popup.close();
+    },
+    openPopup(type) {
+      this.popupType = type;
+      this.$refs.popup.open();
+    },
+    closePopup() {
+      this.$refs.popup.close();
+    },
+    switchCamera() {
+      this.context.switchCamera({
+        success: e => {
+          this.position = this.position === 'back' ? 'front' : 'back';
+        }
+      });
+    },
+    startPreview() {
+      this.context.startPreview({
+        success: e => {
+          console.log(e);
+        }
+      });
+    },
+    statechange(e) {
+      console.log(e);
+    },
+    netstatus(e) {
+      console.log(e);
+    },
+    error(e) {
+      console.log(e);
+    },
+    handleSliderChange(e) {
+      this[this.popupType] = e.detail.value;
+    },
+  }
+};
 </script>
 
 <style>
-
+.btn {
+  height: 80rpx;
+  border-radius: 100rpx;
+  background-color: rgba(255, 255, 255, 0.12);
+  align-items: center;
+  justify-content: center;
+}
+.btn-icon {
+  width: 80rpx;
+  margin-right: 20rpx;
+}
 </style>

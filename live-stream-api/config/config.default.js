@@ -1,30 +1,27 @@
 /* eslint valid-jsdoc: "off" */
-'use strict'
+
+'use strict';
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
-module.exports = (appInfo) => {
+module.exports = appInfo => {
   /**
    * built-in config
    * @type {Egg.EggAppConfig}
    **/
-  const config = (exports = {})
-
+  const config = exports = {};
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1604158088886_8645'
-
+  config.keys = appInfo.name + '_1604219570493_5741';
 
   // add your middleware config here
-  config.middleware = ['errorHandler']
-
+  config.middleware = ['errorHandler'];
 
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
-  }
-
+  };
 
   config.security = {
     // 关闭 csrf
@@ -36,12 +33,12 @@ module.exports = (appInfo) => {
     },
     // 跨域白名单
     // domainWhiteList: ['http://localhost:3000'],
-  }
+  };
   // 允许跨域的方法
   config.cors = {
     origin: '*',
     allowMethods: 'GET, PUT, POST, DELETE, PATCH',
-  }
+  };
 
 
   config.sequelize = {
@@ -66,23 +63,23 @@ module.exports = (appInfo) => {
       // 所有驼峰命名格式化
       underscored: true,
     },
-  }
+  };
 
 
   config.valparams = {
     locale: 'zh-cn',
     throwError: true,
-  }
+  };
 
 
   config.crypto = {
     secret: 'qhdgw@45ncashdaksh2!#@3nxjdas*_672',
-  }
+  };
 
 
   config.jwt = {
     secret: 'qhdgw@45ncashdaksh2!#@3nxjdas*_672',
-  }
+  };
 
 
   // redis存储
@@ -93,10 +90,10 @@ module.exports = (appInfo) => {
       password: '',
       db: 2,
     },
-  }
+  };
 
   return {
     ...config,
     ...userConfig,
-  }
-}
+  };
+};
