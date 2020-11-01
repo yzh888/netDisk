@@ -46,6 +46,15 @@
             
             
         }
+        ,{
+            "path" : "pages/live-room/live-room",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// "navigationBarTextStyle": "white",

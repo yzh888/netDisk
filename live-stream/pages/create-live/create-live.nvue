@@ -1,15 +1,27 @@
 <template>
 	<view>
-		<live-pusher id="livePusher" ref="livePusher" class="livePusher" :url="url" :mode="mode" :enable-camera="enableCamera"
-		 :auto-focus="true" :device-position="position" :beauty="beauty" :whiteness="whiteness" aspect="9:16" @statechange="statechange"
+		<live-pusher 
+		 id="livePusher" 
+		 ref="livePusher" 
+		 class="livePusher" 
+		 :url="url" 
+		 :mode="mode" 
+		 :enable-camera="enableCamera"
+		 :auto-focus="true" 
+		 :device-position="position" 
+		 :beauty="beauty" 
+		 :whiteness="whiteness" 
+		 aspect="9:16" 
+		 @statechange="statechange"
 		 @netstatus="netstatus" @error="error" :style="'height:' + windowHeight + 'px;'" style="width: 750rpx;"></live-pusher>
 		<view style="position: fixed;left: 0;right: 0;height: 500rpx;" :style="'top:'+statusBarHeight+'px;'">
 			<view class="flex align-center justify-center" style="width: 90rpx; height: 90rpx;">
 				<text class="iconfont text-white">&#xe607;</text>
 			</view>
-			<view class="position-absolute rounded p-2 flex align-center" style="left: 90rpx;right: 100rpx;height: 160rpx;background-color: rgba(0,0,0,0.2);">
+			<view class="position-absolute rounded p-2 flex align-center" 
+			style="left: 90rpx;right: 100rpx;height: 160rpx;background-color: rgba(0,0,0,0.2);">
 				<view class="position-relative rounded" style="height: 120rpx;width: 120rpx;">
-					<image src="../../static/gift/3.png" style="height: 120rpx;width: 120rpx;"></image>
+					<image src="../../static/gift/8.png" style="height: 120rpx;width: 120rpx;"></image>
 					<text class="text-white position-absolute font" style="left: 0; right: 0;bottom: 0;">更换封面</text>
 				</view>
 				<view class="flex-1 ml-2">
@@ -40,7 +52,8 @@
 			</view>
 		</view>
 
-		<view class="position-fixed bg-main flex align-center justify-center rounded-circle" style="left: 100rpx;right: 100rpx;bottom: 100rpx;height: 120rpx;">
+		<view class="position-fixed bg-main flex align-center justify-center rounded-circle" 
+		style="left: 100rpx;right: 100rpx;bottom: 100rpx;height: 120rpx;">
 			<text class="text-white font-md">开始视频直播</text>
 		</view>
 
@@ -64,17 +77,13 @@
 				<view v-else>
 					<slider :min="0" :max="10" :step="1" :value="whiteness" :block-size="18" show-value @change="handleSliderChange" />
 				</view>
-
 				<view class="f-divider"></view>
-
 				<view class="flex align-center justify-center" style="height: 90rpx;" hover-class="bg-light">
 					<text class="font-md">取消</text>
 				</view>
 			</view>
 		</uni-popup>
-		
 	</view>
-
 </template>
 
 
