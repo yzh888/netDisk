@@ -9,7 +9,7 @@ class LiveController extends Controller {
     async save() {
         let { ctx, app } = this
         let user_id = ctx.authUser.id
-
+   
         // 参数验证
         ctx.validate({
             title: {

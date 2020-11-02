@@ -11,7 +11,6 @@ module.exports = (option, app) => {
         // 2.token解密，换取用户信息
         let user = {}
 
-
         try {
             user = ctx.checkToken(token)
         } catch (error) {
