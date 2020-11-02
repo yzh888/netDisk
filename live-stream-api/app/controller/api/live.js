@@ -9,7 +9,7 @@ class LiveController extends Controller {
     async save() {
         let { ctx, app } = this
         let user_id = ctx.authUser.id
-   
+
         // 参数验证
         ctx.validate({
             title: {
@@ -56,35 +56,35 @@ class LiveController extends Controller {
     }
 
     //修改直播间状态
-    async changeStatus(){
+    async changeStatus() {
         let { ctx, app } = this
         let user_id = ctx.authUser.id
         //参数链接
         ctx.validate({
-            id:{
+            id: {
                 type: 'int',
                 required: true,
                 desc: '直播间ID',
             },
-            type:{
+            type: {
                 type: 'string',
                 required: true,
                 range: {
-                    in: ['play','pause','stop'],
+                    in: ['play', 'pause', 'stop'],
                 },
             },
         })
-        let { id,type } = ctx.request.body
+        let { id, type } = ctx.request.body
         let live = await app.model.Live.findOne({
-            where:{
+            where: {
                 id,
                 user_id,
             },
         })
-        if(!live){
+        if (!live) {
             return ctx.apiFail('该直播间不存在')
         }
-        if(live.status === 3){
+        if (live.status === 3) {
             return ctx.apiFail('该直播间已结束')
         }
         const status = {
@@ -96,6 +96,10 @@ class LiveController extends Controller {
         await live.save()
         ctx.apiSuccess('ok')
     }
+
+
+    
+
 }
 
 module.exports = LiveController
