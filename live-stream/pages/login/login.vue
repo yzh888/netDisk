@@ -16,9 +16,12 @@
 		
 		<view class="p-3 flex align-center justify-center" @click="submit">
 			<view class="bg-main rounded p-3 flex align-center justify-center flex-1" hover-class="bg-main-hover">
-				<text class="text-white font-md">{{ type === 'login'?'注册账号':'去登录' }}</text>
+				<text class="text-white font-md">{{ type === 'login'?'登录':'注册' }}</text>
 			</view>
-			
+		</view>
+		
+		<view class="flex align-center justify-center">
+			<text class="text-light-muted font p-2" @click="changeType">{{type === 'login'?'注册账号':'去登陆'}}</text>
 		</view>
 	</view>
 </template>
@@ -54,7 +57,7 @@
 							repassword:""
 						}
 					}else{
-						this.$store.dispath('login',res)
+						this.$store.dispatch('login',res)
 						uni.navigateBack({
 							delta:1
 						});
