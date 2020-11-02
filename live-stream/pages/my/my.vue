@@ -15,7 +15,7 @@
       </view>
       <view class="ml-auto mr-3">
         <view class="border border-main rounded flex align-center justify-center p-2" hover-class="bg-light">
-          <text class="text-main font">编辑资料</text>
+          <text class="text-main font" @click="login">编辑资料</text>
         </view>
       </view>
     </view>
@@ -43,7 +43,13 @@ export default {
     let res = uni.getSystemInfoSync();
     this.statusBarHeight = res.statusBarHeight;
   },
-  methods: {}
+  methods: {
+	  login(){
+		  uni.navigateTo({
+		  	url: '../login/login'
+		  });
+	  }
+  }
 };
 </script>
 <style scoped>

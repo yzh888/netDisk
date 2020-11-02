@@ -57,11 +57,11 @@
         }
         ,{
             "path" : "pages/login/login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
+            "style" :{
+            	"app-plus": {
+            		"titleNView": false
+            	}
+            }       
             
         }
     ],
