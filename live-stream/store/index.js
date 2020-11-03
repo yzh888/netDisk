@@ -8,6 +8,21 @@ export default new Vuex.Store({
 		token:null
 	},
 	actions: {
+		//需要登录才能访问的方法，这个只能放在vuex才能生效
+		authMethod({
+			state
+		},callback){
+			if(!state.token){
+				uni.showToast({
+					title:'请先登录',
+					icon: 'none'
+				});
+				return uni.navigateTo({
+					url:'/pages/login/login'
+				});
+			}
+			callback()
+		},
 		initUser({
 			state
 		}) {

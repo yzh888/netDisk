@@ -201,7 +201,9 @@
 				});
 			},
 			openInput() {
-				this.$refs.input.open()
+				this.$store.dispatch('authMethod',() => {
+					this.$refs.input.open();
+				});
 			},
 			submit() {
 				if (this.content === '') {

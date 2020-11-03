@@ -1,6 +1,10 @@
 <template>
   <view>
-    <view class="top flex align-center justify-center"></view>
+    <view class="top flex align-center justify-center">
+		<view style="position: absolute;top: 90rpx;right: 20rpx;" @click="settings">
+			<image src="../../static/settings.png" style="width: 70rpx;height: 70rpx;" mode=""></image>
+		</view>
+	</view>
     <view v-if="!user" class="flex align-center">
       <view class="flex align-center justify-center " style="width: 180rpx;height: 180rpx;">
         <image
@@ -91,6 +95,11 @@ export default {
 		  uni.navigateTo({
 		  	url: '../login/login'
 		  });
+	  },
+	  settings(){
+		this.authJump({
+			url: '../user-set/user-set'
+		}); 
 	  },
   }
 };
