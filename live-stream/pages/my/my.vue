@@ -29,10 +29,9 @@
 		<view class="flex align-center">
 			<view class="flex align-center justify-center position-relative" 
 			style="width: 180rpx;height: 160rpx;">
-				<image src="../../static/taoranran.jpg"
-				class="rounded-circle"
-				style="width: 130rpx;height: 130rpx;position: absolute;top: -60rpx;">
-				</image>
+				<image :src="user.avatar" 
+				        class="rounded-circle"
+				        style="width: 130rpx;height: 130rpx;position: absolute;top: -60rpx;">
 			</view>
 			<view class="flex flex-column">
 				<text class="font-md">{{user.username}}</text>

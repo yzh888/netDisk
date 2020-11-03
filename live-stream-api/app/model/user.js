@@ -46,6 +46,12 @@ module.exports = (app) => {
       },
     },
     updated_time: DATE,
+    wx_open_id:{
+      type:STRING,
+      allowNull: true,
+      defaultValue:'',
+      comment:'微信openId',
+    },
   })
   return User
 }

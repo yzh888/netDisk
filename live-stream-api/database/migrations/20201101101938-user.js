@@ -36,6 +36,12 @@ module.exports = {
       },
       created_time: DATE,
       updated_time: DATE,
+      wx_open_id:{
+        type:STRING,
+        allowNull:true,
+        defaultValue:'',
+        comment:'微信openId',
+      },
     })
   },
 

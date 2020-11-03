@@ -3266,7 +3266,7 @@ var render = function() {
                           callback: function($$v) {
                             _vm.$handleVModelEvent(13, $$v)
                           },
-                          expression: "form.password"
+                          expression: "form.code"
                         }
                       })
                     ],
@@ -3305,15 +3305,24 @@ var render = function() {
                         "v-uni-button",
                         {
                           staticClass: _vm._$g(17, "sc"),
+                          class: _vm._$g(17, "c"),
                           staticStyle: {
                             height: "80rpx",
                             "line-height": "80rpx",
                             "background-color": "#8431f9",
                             color: "#FFFFFF"
                           },
-                          attrs: { _i: 17 }
+                          attrs: {
+                            disabled: _vm._$g(17, "a-disabled"),
+                            _i: 17
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.$handleViewEvent($event)
+                            }
+                          }
                         },
-                        [_vm._v("获取验证码")]
+                        [_vm._v(_vm._$g(17, "t0-0"))]
                       )
                     ],
                     1
@@ -3432,7 +3441,12 @@ var render = function() {
           _c("v-uni-image", {
             staticClass: _vm._$g(30, "sc"),
             staticStyle: { width: "100rpx", height: "100rpx" },
-            attrs: { src: _vm._$g(30, "a-src"), mode: "", _i: 30 }
+            attrs: { src: _vm._$g(30, "a-src"), mode: "", _i: 30 },
+            on: {
+              click: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
+            }
           }),
           _c("v-uni-image", {
             staticClass: _vm._$g(31, "sc"),

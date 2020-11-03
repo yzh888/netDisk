@@ -1,7 +1,7 @@
 <template>
-	<view class="flex-1">
+	<view class="flex-1" :style="'margin-top:'+statusBarHeight+'px'">
 
-		<video src="https://yzhss.utools.club/live/FwlscTk7vwazU9VVwWTs.flv?sign=1604334147-97067e1aeeaaf8b2dce5f6b87eb69e03" autoplay controls='false' class="flex-1"></video>
+		<video :src="src" autoplay controls='false' class="flex-1"></video>
 		<!-- 头部 -->
 		<view style="position: fixed;left: 0;right: 0;" :style="'margin-top:'+statusBarHeight+'px'">
 			<view style="height: 80rpx;" class="px-2 flex justify-between align-center">
@@ -11,7 +11,7 @@
 					</view>
 					<view class="flex-1 flex flex-column justify-center">
 						<text class="text-white font">陶然然</text>
-						<text class="text-white font-sm">100</text>
+						<text class="text-white font-sm">87</text>
 					</view>
 					<view class="p">
 						<view class="rounded-circle flex align-center justify-center bg-main" style="width: 70rpx;height: 70rpx;">
@@ -41,7 +41,7 @@
 						<text class="text-warning">金币</text>
 					</view>
 					<view class="flex-1 flex flex-column justify-center">
-						<text class="text-white font">100</text>
+						<text class="text-white font">{{detail.coin}}</text>
 					</view>
 				</view>
 
@@ -132,6 +132,7 @@
 	import fGift from '@/components/live/f-gift.vue';
 	import fDanmu from '@/components/live/f-danmu.vue';
 	import uniPopup from '@/components/uni-ui/uni-popup/uni-popup.vue';
+	import $H from '@/common/request.js';
 	export default {
 		components: {
 			fGift,
@@ -154,13 +155,48 @@
 				statusBarHeight: 0,
 				content: '',
 				gifts: [],
-				giftActiveId: 0
+				giftActiveId: 0,
+				id:0,
+				detail:{
+					user:{
+						id:0,
+						username:'',
+						avatar:''
+					},
+					create_time:'',
+					id:1,
+					title:'',
+					cover:'',
+					user_id:0,
+					look_count:'',
+					coin:0,
+					key:'',
+					status:0,
+					userId:0
+				}
 			}
 		},
-		onLoad() {
-			let res = uni.getSystemInfoSync()
-			this.statusBarHeight = res.statusBarHeight
-			this.gifts = myGifts
+		onLoad(option) {
+			this.id = option.id;
+			let res = uni.getSystemInfoSync();
+			console.log(option.id)
+			this.statusBarHeight = res.statusBarHeight;
+			this.gifts = myGifts;
+			$H.get('/live/read/' + this.id).then(res => {
+				this.detail = res.data;
+				console.log(res.data)
+				this.sign = res.sign
+				console.log(res.sign)
+			})
+		},
+			
+		computed:{
+			src(){
+				if(this.detail.key == '' || this.sign == ''){
+					return '';
+				}
+				return `https://yzh888.utools.club/live/${this.detail.key}.flv?sign=${this.sign}`;
+			}
 		},
 		methods: {
 			openCoin() {
@@ -187,8 +223,8 @@
 				}
 				let g = this.gifts[index]
 				this.$refs.gift.send({
-					username: '陶然然',
-					avatar: '',
+					username: this.$store.state.user.username,
+					avatar: this.$store.state.user.avatar,
 					gift_name: g.name,
 					gift_image: g.image,
 					num: 99
@@ -211,11 +247,16 @@
 				}
 				this.$refs.danmu.send({
 					id: Math.random() * 100,
-					name: "陶然然",
+					name: this.$store.state.user.username,
 					content: this.content
 				})
 				this.content = ''
 				this.$refs.input.close()
+			},
+			back(){
+				uni.navigateBack({
+					delta:1
+				});
 			},
 
 		}

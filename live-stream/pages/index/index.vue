@@ -129,9 +129,9 @@ export default {
 				}
 			});
 	},
-    openLive() {
+    openLive(id) {
       uni.navigateTo({
-        url: '../live/live'
+        url: '../live/live?id='+id
       });
     },
   }

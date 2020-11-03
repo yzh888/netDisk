@@ -4,7 +4,7 @@
       <text style="font-size: 50rpx;" class="text-dark">{{ type === 'login' ? '账号密码登录' : '手机验证码登录' }}</text>
     </view>
     <view class="px-3">
-      <view v-if="!isPhoneLogin">
+      <view v-if=" type === 'login'">
         <view  class="flex border-bottom align-end pb-1">
 			<text style="line-height: 80rpx;" class="mr-2">+86</text>
           <input
@@ -30,10 +30,10 @@
         </view>
 		</view>
       <view class="flex border-bottom mt-4 align-center align-end pb-1">
-        <view v-if="!isPhoneLogin" style="width: 500rpx;">
+        <view v-if=" type === 'login'" style="width: 500rpx;">
           <input
             type="text"
-            v-model="form.password"
+            v-model="form.code"
             class="px-3 font rounded "
             placeholder="请输入验证码"
             style="height: 80rpx; width: 500rpx;"
@@ -50,9 +50,12 @@
             placeholder-style=" color: #bababa;"
           />
         </view>
-        <view v-if="!isPhoneLogin">
-          <button style=" height: 80rpx; line-height: 80rpx; background-color: #8431f9; color: #FFFFFF" class="font-sm rounded">
-			  获取验证码</button>
+        <view v-if=" type === 'login'">
+          <button :disabled="message >0 && message < 60"
+			style=" height: 80rpx; line-height: 80rpx; background-color: #8431f9; color: #FFFFFF" 
+			:class="{btnColor:!(message > 0 && message<=60)}"
+			class="font-sm rounded" @click="getCode()">
+			  {{message}}</button>
         </view>
         <view v-else class="bg-main">
           <view style="width: 200rpx; height: 80rpx; line-height: 80rpx; color: #bababa;" class="font-sm bg-white">
@@ -78,7 +81,7 @@
     </view>
     <view class="flex align-center justify-center mt-5"><text class="font font-smaller text-light-black">———社交账号登录———</text></view>
     <view class="flex align-center justify-between mt-3" style="margin-left: 100rpx;margin-right: 100rpx;">
-      <image class="mt-3" style="width: 100rpx;height: 100rpx;" src="../../static/weixin.png" mode=""></image>
+      <image class="mt-3" style="width: 100rpx;height: 100rpx;" src="../../static/weixin.png" mode="" @click="weixin"></image>
       <image class="mt-3" style="width: 100rpx;height: 100rpx;" src="../../static/QQ.png"></image>
       <image class="mt-3" style="width: 100rpx;height: 100rpx;" src="../../static/weibo.png" mode=""></image>
     </view>
@@ -103,17 +106,38 @@ export default {
       form: {
         username: '',
         password: '',
-        repassword: ''
-      }
+        repassword: '',
+		code:'',
+		phone:''
+      },
+	  message:"获取验证码"
     };
   },
   methods: {
+	  getCode() {
+	  			this.$H.post('/sendcode', {"phone": this.form.username}).then(res => {
+	  				this.message = 60;
+	  				var that = this
+	                  //这是我的定时器
+	  				var result = setInterval(function() {
+	  					that.message = that.message - 1;
+	  					if(that.message == 0) {
+	  						that.message = '获取验证码';
+	  						clearInterval(result)
+	  					}
+	  				}, 1000);
+	  			})	
+	  		},
     changeType() {
       this.isPhoneLogin = !this.isPhoneLogin
-      this.type = this.type === 'login' ? 'reg' : 'login'
+      this.type = this.type === 'login' ? 'msg' : 'login'
     },
     submit() {
       let msg = this.type === 'login' ? '登录' : '注册'
+	  this.type = this.isPhoneLogin ? 'phoneLogin' :'login';
+	  if(this.type == 'phoneLogin') {
+		  this.form.username = '老颜'
+	  }
       console.log(this.type)
       this.$H.post('/' + this.type, this.form).then(res => {
         console.log("进入内部" + res)
@@ -121,7 +145,7 @@ export default {
           title: msg + "成功",
           icon: 'none'
         });
-        if(this.type == 'reg') {
+        if(this.type === 'reg') {
           this.changeType()
           this.form = {
             username: '',
@@ -138,7 +162,42 @@ export default {
           // })
         }
       })
-    }
+    },
+	weixin() {
+				var that = this
+				//判断手机是否安装微信
+				uni.getProvider({
+					service: 'oauth',
+					success: function(res) {
+						//进行微信授权
+						uni.login({
+							provider: 'weixin',
+							success: function(loginRes) {
+								//获取微信信息
+								uni.getUserInfo({
+									provider: 'weixin',
+									success: function(info) {
+										var user = info.userInfo;
+										var param = {"avatar": user.avatarUrl, "openId": user.openId};
+										that.$H.post('/wxLogin', param).then(res => {
+											
+											uni.showToast({
+												title: "登录成功",
+												icon: 'none'
+											});
+											that.$store.dispatch('login', res)
+											uni.navigateBack({
+												delta: 2
+											})
+										});
+										
+									}
+								})
+							}
+						})
+					}
+				})
+			},
   }
 };
 </script>
