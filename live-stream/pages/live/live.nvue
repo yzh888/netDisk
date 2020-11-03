@@ -74,7 +74,7 @@
 				<view class="btn btn-icon">
 					<text class="iconfont text-white">&#xe7cd;</text>
 				</view>
-				<view class="btn btn-icon">
+				<view class="btn btn-icon" @click="goback">
 					<text class="iconfont text-white">&#xe607;</text>
 				</view>
 			</view>

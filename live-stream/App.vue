@@ -8,7 +8,6 @@
 				'src': "url('http://at.alicdn.com/t/font_1859985_7mxozsfdvib.ttf')"
 			});
 			// 监听底部导航中间凸起按钮
-			
 			uni.onTabBarMidButtonTap(() => {
 				uni.navigateTo({
 					url:'/pages/create-live/create-live',
