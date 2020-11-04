@@ -120,33 +120,33 @@ class LiveController extends Controller {
 
     //查看指定直播间
     async read() {
-        const {ctx,app} = this
+        const { ctx, app } = this
         ctx.validate({
-            id:{
+            id: {
                 required: true,
                 desc: '直播间ID',
-                type:'int',
+                type: 'int',
             },
         })
         let id = ctx.params.id
         let live = await app.model.Live.findOne({
-            where:{
+            where: {
                 id,
             },
             include: [
                 {
                     model: app.model.User,
-                    attributes: ['id','username','avatar'],
+                    attributes: ['id', 'username', 'avatar'],
                 },
             ],
         })
-        if(!live){
+        if (!live) {
             return ctx.apiFail('该直播间不存在')
         }
         //生成签名
         let sign = null
         //直播未结束
-        if(live.status !==3){
+        if (live.status !== 3) {
             sign = this.sign(live.key)
         }
         ctx.apiSuccess({

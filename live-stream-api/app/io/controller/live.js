@@ -1,5 +1,7 @@
 'user strict'
 
+const await = require('await-stream-ready/lib/await')
+
 
 const Controller = require('egg').Controller
 
@@ -51,6 +53,7 @@ class NspController extends Controller {
     }
     //进入直播间
     async joinLive() {
+        console.log("11111111111111111111111111111111111")
         const { ctx, app, service, helper } = this
         const nsp = app.io.of('/')
         //接受参数
@@ -89,7 +92,7 @@ class NspController extends Controller {
             avatar: user.avatar,
         })
         service.cache.set('userList_' + room, list)
-
+        console.log(list)
         //更新在线用户列表
         nsp.adapter.clients(rooms, (err, clients) => {
             nsp.to(room).emit('online', {
@@ -125,6 +128,57 @@ class NspController extends Controller {
                 })
             }
         }
+    }
+
+    async leaveLive(){
+        const {ctx,app,service,helper} = this
+        const nsp = app.io.of('/')
+        const message = ctx.args[0]||{}
+        const socket = ctx.socket
+        const id = socket.id
+        let {live_id,token}=message
+
+        let user = await this.checkToken(token)
+        if(!user){
+            return
+        }
+        let msg = await service.live.checkStatus(live_id)
+        if(msg){
+            socket.emit(id,
+                ctx.helper.parseMsg('error',msg,{
+                    notoast:true
+                }))
+            return
+        }
+        const room = 'live_'+live_id
+        socket.leave(room)
+        const rooms =[room]
+
+        let list = await service.cache.get('userList_'+room)
+        if(list){
+            list = list.filter((item)=>item.id!==user.id)
+            service.cache.set('userList_'+room,list)
+        }
+        // console.log(list)
+
+        nsp.adapter.clients(rooms,(err,clients)=>{
+            nsp.to(room).emit('online',{
+                clients,
+                action:'leave',
+                user:{
+                    id:user.id,
+                    name:user.username,
+                    avatar:user.avatar,
+                },
+                data:list,
+            })
+        })
+        // let list = await service.cache.get('userList_'+room)
+        // if(list){
+        //     list = list.filter((item)=>item.id!==user.id)
+        //     service.cache.set('userList_'+room.list)
+        // }
+        console.log(list)
     }
 }
 module.exports = NspController
