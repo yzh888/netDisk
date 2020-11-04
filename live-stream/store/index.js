@@ -29,7 +29,12 @@ export default new Vuex.Store({
 			S.on('connect', () => {
 				console.log('已连接')
 				//测试一条推送数据
-				S.emit('test', '123456')
+				S.emit('test', '测试socket连接')
+				
+				//监听来自服务器端的消息
+				S.on(S.id,(e) => {
+					console.log(e);
+				})
 			})
 			//监听失败
 			S.on('error', () => {
