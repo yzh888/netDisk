@@ -30,5 +30,6 @@ module.exports = (app) => {
   router.post('/api/wxLogin', controller.api.user.wxLogin);
 
   //socket路由配置测试
-  io.of('/').route('test', io.controller.nsp.test);
+  //io.of('/').route('test', io.controller.nsp.test);
+  io.of('/').route('joinLive', io.controller.live.joinLive)
 };

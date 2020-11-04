@@ -133,6 +133,8 @@
 	import fDanmu from '@/components/live/f-danmu.vue';
 	import uniPopup from '@/components/uni-ui/uni-popup/uni-popup.vue';
 	import $H from '@/common/request.js';
+	import $C from '@/common/config.js';
+	import { mapState } from 'vuex';
 	export default {
 		components: {
 			fGift,
@@ -140,15 +142,18 @@
 			uniPopup
 		},
 		mounted() {
-			setInterval(() => {
-				this.$refs.gift.send({
-					username: "发送人",
-					avatar: "",
-					gift_name: "爱心",
-					gift_image: "/static/gift/7.png",
-					num: 999
-				})
-			}, 3000)
+			// setInterval(() => {
+			// 	this.$refs.gift.send({
+			// 		username: "发送人",
+			// 		avatar: "",
+			// 		gift_name: "爱心",
+			// 		gift_image: "/static/gift/7.png",
+			// 		num: 999
+			// 	})
+			// }, 3000)
+			
+			//加入直播间
+			this.joinOrLeaveLive('join');
 		},
 		data() {
 			return {
@@ -197,9 +202,22 @@
 					return '';
 				}
 				return `https://yzh888.utools.club/live/${this.detail.key}.flv?sign=${this.sign}`;
-			}
+			},
+			...mapState({
+				socket: state => state.socket,
+				token: state =>state.token
+			})
 		},
 		methods: {
+			//加入或离开直播间
+			joinOrLeaveLive(type){
+				if(this.socket && this.token){
+					this.socket.emit(type + 'Live',{
+						live_id: this.id,
+						token: this.token
+					});
+				}
+			},
 			openCoin() {
 				uni.navigateTo({
 					url: '../coin/coin'
