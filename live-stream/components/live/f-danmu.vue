@@ -23,21 +23,20 @@
 			}
 		},
 		mounted() {
-			let id = 1
-			setInterval(() =>{
-				this.list.push({
-					id: id,
-					name:'小颜' + id,
-					content:'点赞x' + id
-				})
-				this.toBottom()
-				id++
-			},2000)
+			// let id = 1
+			// setInterval(() =>{
+			// 	this.list.push({
+			// 		id: id,
+			// 		name:'小颜' + id,
+			// 		content:'点赞x' + id
+			// 	})
+			// 	this.toBottom()
+			// 	id++
+			// },2000)
 		},
 		methods:{
 			send(data){
 							this.list.push(data)
-							
 							this.toBottom()
 						},
 			toBottom(){

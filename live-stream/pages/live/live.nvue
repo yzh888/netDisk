@@ -22,13 +22,13 @@
 
 				<view class="flex rounded-circle" style="width: 324rpx;background-color: rgba(0,0,0,0.4);">
 					<scroll-view scroll-y="true" class="flex flex-1" style="width: 75rpx;">
-						<view class="p" v-for="i in 20" :key="i">
-							<image src="../../static/me.jpg" style="width: 70rpx;height: 70rpx;" class="rounded-circle" mode=""></image>
+						<view class="p" v-for="(item,index) in list" :key="index">
+							<image :src="item.avatar" style="width: 70rpx;height: 70rpx;" class="rounded-circle" mode=""></image>
 						</view>
 					</scroll-view>
 					<view class="p">
 						<view class="rounded-circle flex align-center justify-center bg-main" style="width: 70rpx; height: 70rpx;">
-							<text class="text-white font-sm">1000</text>
+							<text class="text-white font-sm">{{ list.length }}</text>
 						</view>
 					</view>
 				</view>
@@ -161,6 +161,7 @@
 				content: '',
 				gifts: [],
 				giftActiveId: 0,
+				list:[],
 				id:0,
 				detail:{
 					user:{
@@ -193,7 +194,9 @@
 				this.sign = res.sign
 				console.log(res.sign)
 				console.log(this.detail.user)
-			})
+			});
+			//监听全局事件
+			uni.$on('live',this.handleLiveEvent);
 		},
 			
 		computed:{
@@ -209,6 +212,19 @@
 			})
 		},
 		methods: {
+			//处理直播间事件
+			handleLiveEvent(e){
+				let d = e.data;
+				switch(e.type){
+					case 'online':
+					if(d.action === 'join'){
+						this.list = d.data;
+					}
+					break;
+				default:
+					break;
+				}
+			},
 			//加入或离开直播间
 			joinOrLeaveLive(type){
 				if(this.socket && this.token){
