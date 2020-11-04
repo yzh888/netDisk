@@ -15,10 +15,10 @@ module.exports = (app) => {
   router.post('/api/live/create', controller.api.live.save);
   // 退出登录
   router.post('/api/logout', controller.api.user.logout);
-  //获取当前用户信息
+  //获取当前用户信息 
   router.get('/api/user/info', controller.api.user.info);
   //修改直播间状态
-  router.post('/api/live/changestatus',controller.api.live.changeStatus);
+  router.post('/api/live/changestatus', controller.api.live.changeStatus);
   //直播间列表
   router.get('/api/live/list/:page', controller.api.live.list);
   //查看指定直播间
@@ -30,6 +30,5 @@ module.exports = (app) => {
   router.post('/api/wxLogin', controller.api.user.wxLogin);
 
   //socket路由配置测试
-  io.of('/').route('test',io.controller.nsp.test);
-
+  io.of('/').route('test', io.controller.nsp.test);
 };
