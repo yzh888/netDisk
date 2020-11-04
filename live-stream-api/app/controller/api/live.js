@@ -133,7 +133,7 @@ class LiveController extends Controller {
             where:{
                 id,
             },
-            includes: [
+            include: [
                 {
                     model: app.model.User,
                     attributes: ['id','username','avatar'],

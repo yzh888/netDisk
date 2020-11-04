@@ -119,6 +119,24 @@ module.exports = appInfo => {
   nms.run();
 
 
+  config.io = {
+    init:{
+      wsEngine:'ws',
+    },
+    namespace:{
+      '/':{
+        connectionMiddleware:[],
+        packetMiddleware:[],
+      },
+    },
+    redis:{
+      host:'127.0.0.1',
+      port:6379,
+      db:0,
+    }
+  }
+
+
   return {
     ...config,
     ...userConfig,

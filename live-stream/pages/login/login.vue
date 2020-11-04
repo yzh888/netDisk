@@ -1,7 +1,7 @@
 <template>
   <view class="container bg-white">
     <view class="flex align-center justify-center" style="height: 350rpx;">
-      <text style="font-size: 50rpx;" class="text-dark">{{ type === 'login' ? '账号密码登录' : '手机验证码登录' }}</text>
+      <text style="font-size: 50rpx;" class="text-dark">{{ type === 'login' ? '手机验证码登录' : '账号密码登录' }}</text>
     </view>
     <view class="px-3">
       <view v-if=" type === 'login'">
@@ -70,7 +70,7 @@
     </view>
     <view class="flex align-center justify-center ">
       <text class="font p-2 text-main" @click="changeType">
-        {{ type === 'login' ? '验证码登陆' : '账号密码登录' }}
+        {{ type === 'login' ? '账号密码登录' : '验证码登陆' }}
       </text>
 	  <text class="font p-2 ">
 	  	| 

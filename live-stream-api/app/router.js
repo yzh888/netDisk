@@ -4,7 +4,7 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = (app) => {
-  const { router, controller } = app;
+  const { router, controller, io } = app;
   router.get("/", controller.home.index);
   router.get("/list", controller.home.list);
   // 用户注册
@@ -28,5 +28,8 @@ module.exports = (app) => {
   router.post('/api/phoneLogin', controller.api.user.phoneLogin);
   //微信登录
   router.post('/api/wxLogin', controller.api.user.wxLogin);
+
+  //socket路由配置测试
+  io.of('/').route('test',io.controller.nsp.test);
 
 };

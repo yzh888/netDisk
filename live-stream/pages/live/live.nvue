@@ -7,11 +7,11 @@
 			<view style="height: 80rpx;" class="px-2 flex justify-between align-center">
 				<view class="flex rounded-circle" style="width: 325rpx;background-color: rgba(0,0,0,0.4);">
 					<view class="p">
-						<image src="../../static/taoranran.jpg" style="width: 70rpx;height: 70rpx;" class="rounded-circle" mode=""></image>
+						<image :src="detail.user.avatar" style="width: 70rpx;height: 70rpx;" class="rounded-circle" mode=""></image>
 					</view>
 					<view class="flex-1 flex flex-column justify-center">
-						<text class="text-white font">陶然然</text>
-						<text class="text-white font-sm">87</text>
+						<text class="text-white font">{{detail.user.username}}</text>
+						<text class="text-white font-sm">{{detail.look_count}}</text>
 					</view>
 					<view class="p">
 						<view class="rounded-circle flex align-center justify-center bg-main" style="width: 70rpx;height: 70rpx;">
@@ -187,6 +187,7 @@
 				console.log(res.data)
 				this.sign = res.sign
 				console.log(res.sign)
+				console.log(this.detail.user)
 			})
 		},
 			
