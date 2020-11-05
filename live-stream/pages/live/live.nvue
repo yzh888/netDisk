@@ -197,10 +197,17 @@
 			$H.get('/live/read/' + this.id).then(res => {
 				this.detail = res.data;
 				console.log(res.data)
-				this.sign = res.sign
+				this.sign = res.sign;
 				console.log(res.sign)
-				console.log(this.detail.user)
+			
 			});
+			//请求礼物列表接口
+			$H.get('/gift/list').then(res => {
+				this.gifts = res.map(item => {
+					item.image = $C.imageUrl + item.image
+					return item
+				})
+			})
 			//监听全局事件
 			uni.$on('live',this.handleLiveEvent);
 		},
@@ -239,6 +246,16 @@
 					this.content = ''
 					this.$refs.input.close()
 					break;
+					case 'gift':
+					this.$refs.gift.send({
+						username:d.username,
+						avatar:d.avatar,
+						gift_name:d.gift_name,
+						gift_image:$C.imageUrl+d.gift_image,
+						num:1
+					})
+					this.$refs.input.close()
+					break;
 				default:
 					break;
 				}
@@ -275,14 +292,30 @@
 					return
 				}
 				let g = this.gifts[index]
-				this.$refs.gift.send({
-					username: this.$store.state.user.username,
-					avatar: this.$store.state.user.avatar,
-					gift_name: g.name,
-					gift_image: g.image,
-					num: 99
-				})
-				this.closeGift()
+				// this.$refs.gift.send({
+				// 	username: this.$store.state.user.username,
+				// 	avatar: this.$store.state.user.avatar,
+				// 	gift_name: g.name,
+				// 	gift_image: g.image,
+				// 	num: 99
+				// })
+				if(!this.token && !this.socket){ 
+					uni.navigateTo({
+						url:'../login/login',
+					});
+					return uni.showToast({
+						title:'请先登录',
+						icon:'none'
+					});
+				}
+				if(this.socket){
+					this.socket.emit('gift',{
+						live_id:this.id,
+						gift_id:g.id,
+						token:this.token
+					})
+				}
+				//this.closeGift()
 			},
 			goback() {
 				uni.navigateBack({

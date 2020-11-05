@@ -211,6 +211,65 @@ class NspController extends Controller {
       user_id: user.id,
     })
   }
+
+  //直播间送礼物
+  async gift() {
+    const { ctx, app, service, helper } = this
+    const nsp = app.io.of('/')
+    const message = ctx.args[0] || {}
+    const socket = ctx.socket
+    const id = socket.id
+    let { live_id, token, gift_id } = message
+
+    let user = await this.checkToken(token)
+    if (!user) {
+      return
+    }
+    let msg = await service.live.checkStatus(live_id)
+    if (msg) {
+      socket.emit(id, ctx.helper.parseMsg('error', msg))
+      return
+    }
+
+    const room = 'live_' + live_id
+
+    let gift = await app.model.Gift.findOne({
+      where: {
+        id: gift_id,
+      },
+    })
+    if (!gift) {
+      socket.emit(id, ctx.helper.parseMsg('error', '该礼物不存在'))
+      return
+    }
+    if (user.coin < gift.coin) {
+      socket.emit(id, ctx.helper.parseMsg('error', '金币不足，请先充值'))
+      return
+    }
+    user.coin -= gift.coin
+    await user.save()
+    app.model.LiveGift.create({
+      live_id,
+      user_id: user.id,
+      gift_id,
+    })
+
+    let live = await app.model.Live.findOne({
+      where: {
+        id: live_id
+      },
+    })
+    live.coin += gift.coin
+    live.save()
+    nsp.to(room).emit('gift', {
+      avatar: user.avatar,
+      username: user.nickname || user.username,
+      gift_name: gift.name,
+      gift_image: gift.image,
+      gift_coin: gift.coin,
+      num: 1
+    })
+  }
 }
 
 module.exports = NspController

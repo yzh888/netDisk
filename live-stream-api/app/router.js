@@ -37,4 +37,7 @@ module.exports = (app) => {
   io.of('/').route('leaveLive', io.controller.nsp.leaveLive)
   //增加弹幕
   io.of('/').route('comment', io.controller.nsp.comment)
+  //查看礼物列表接口
+  io.of('/').route('gift', io.controller.nsp.gift)
+  router.get('/api/gift/list', controller.api.gift.list)
 };
