@@ -230,6 +230,15 @@
 						this.list = d.data
 					}
 					break;
+					case 'comment':
+					this.$refs.danmu.send({
+						id:d.id,
+						name:d.user.name,
+						content:d.content
+					})
+					this.content = ''
+					this.$refs.input.close()
+					break;
 				default:
 					break;
 				}
@@ -287,15 +296,29 @@
 			},
 			submit() {
 				if (this.content === '') {
-					return
+					return uni.showToast({
+						title:'评论内容不能为空',
+						icon:'none'
+					});
 				}
-				this.$refs.danmu.send({
-					id: Math.random() * 100,
-					name: this.$store.state.user.username,
-					content: this.content
-				})
-				this.content = ''
-				this.$refs.input.close()
+				if(!this.token && !this.socket){
+					uni.navigateTo({
+						url:'../login/login'
+					});
+					return uni.showToast({
+						title:'请先登录',
+						icon:'none'
+					});
+				}
+				
+				if(this.socket){
+					this.socket.emit('comment',{
+						live_id:this.id,
+						data:this.content,
+						token:this.token
+					})
+				}
+					
 			},
 			back(){
 				uni.navigateBack({

@@ -32,7 +32,9 @@ module.exports = (app) => {
   //socket路由配置测试
   //io.of('/').route('test', io.controller.nsp.test);
   //进入直播间
-  io.of('/').route('joinLive', io.controller.live.joinLive)
+  io.of('/').route('joinLive', io.controller.nsp.joinLive)
   //离开直播间
-  io.of('/').route('leaveLive', io.controller.live.leaveLive)
+  io.of('/').route('leaveLive', io.controller.nsp.leaveLive)
+  //增加弹幕
+  io.of('/').route('comment', io.controller.nsp.comment)
 };
