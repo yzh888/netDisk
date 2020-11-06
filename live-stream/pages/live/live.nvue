@@ -217,7 +217,7 @@
 				if(this.detail.key == '' || this.sign == ''){
 					return '';
 				}
-				return `https://yzh888.utools.club/live/${this.detail.key}.flv?sign=${this.sign}`;
+				return `http:/mqlive.utools.club/live/${this.detail.key}.flv?sign=${this.sign}`;
 			},
 			...mapState({
 				socket: state => state.socket,

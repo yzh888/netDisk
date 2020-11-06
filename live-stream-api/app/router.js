@@ -40,4 +40,5 @@ module.exports = (app) => {
   //查看礼物列表接口
   io.of('/').route('gift', io.controller.nsp.gift)
   router.get('/api/gift/list', controller.api.gift.list)
+  router.get('/test',controller.admin.test.page);
 };
