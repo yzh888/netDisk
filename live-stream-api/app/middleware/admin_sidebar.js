@@ -1,7 +1,9 @@
-'use strict'
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+'use strict';
 module.exports = (option, app) => {
   return async (ctx, next) => {
-    let menus = [
+    const menus = [
       {
         name: '主面板',
         icon: 'fe-home',
@@ -32,20 +34,20 @@ module.exports = (option, app) => {
         icon: 'fe-table',
         url: '/admin/manager',
       },
-    ]
+    ];
 
-    ctx.locals.sidebar = menus.map((item) => {
+    ctx.locals.sidebar = menus.map(item => {
       if (
         (ctx.request.url === '/admin' && item.url === '/admin') ||
         (ctx.request.url.startsWith(item.url) &&
           ctx.request.url != '/admin' &&
           item.url !== '/admin')
       ) {
-        item.active = 'active'
+        item.active = 'active';
       }
-      return item
-    })
+      return item;
+    });
 
-    await next()
-  }
-}
+    await next();
+  };
+};

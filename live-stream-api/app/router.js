@@ -47,19 +47,20 @@ module.exports = (app) => {
   //管理员列表
   //router.get('/admin/manager', controller.admin.manager.index);
 
-   //dashbord首页
-   router.get('/admin', controller.admin.home.index)
-   //管理员登录路由
-   router.get('/admin/login', controller.admin.home.login)
-   //登出路由
-   router.get('/admin/logout', controller.admin.home.logout)
-   //登录登出接口
-   router.post('/admin/loginevent', controller.admin.home.loginevent)
-   //管理员模块列表路由
-   router.get('/admin/manager', controller.admin.manager.index)
-   //创建管理员页面路由
-   router.get('/admin/manager/create', controller.admin.manager.create)
-   //新增管理员接口
-   router.post('/admin/manager', controller.admin.manager.save)
-
+  //dashbord首页
+  router.get('/admin', controller.admin.home.index)
+  //管理员登录路由
+  router.get('/admin/login', controller.admin.home.login)
+  //登出路由
+  router.get('/admin/logout', controller.admin.home.logout)
+  //登录登出接口
+  router.post('/admin/loginevent', controller.admin.home.loginevent)
+  //管理员模块列表路由
+  // router.get('/admin/manager', controller.admin.manager.index)
+  //创建管理员页面路由
+  router.get('/admin/manager/create', controller.admin.manager.create)
+  //新增管理员接口
+  router.post('/admin/manager', controller.admin.manager.save)
+  //管理员列表
+  router.get('/admin/manager', controller.admin.manager.index);
 };
