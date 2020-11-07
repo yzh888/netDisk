@@ -84,5 +84,16 @@ module.exports = (app) => {
   // 更新用户数据接口
   router.post('/admin/user/:id', controller.admin.user.update);
 
-
+  //礼物模块
+  router.get('/admin/gift', controller.admin.gift.index);
+  // 新增礼物路由
+  router.get('/admin/gift/create', controller.admin.gift.create);
+  // 新增礼物接口
+  router.post('/admin/gift', controller.admin.gift.save);
+  // 编辑礼物路由
+  router.get('/admin/gift/edit/:id', controller.admin.gift.edit);
+  // 删除礼物路由
+  router.get('/admin/gift/delete/:id', controller.admin.gift.delete);
+  // 更新礼物数据接口
+  router.post('/admin/gift/:id', controller.admin.gift.update);
 };
