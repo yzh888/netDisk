@@ -7,7 +7,6 @@
     </div>
     {% endif %}
     <div class="card-body">
-
         {% if table.tabs %}
         <ul class="nav nav-tabs nav-tabs-top">
             {% for item in table.tabs %}
@@ -15,7 +14,6 @@
             {% endfor %}
         </ul>
         {% endif %}
-
         <div class="table-responsive">
             <table class="table table-hover table-center mb-0">
                 <thead>
@@ -55,18 +53,16 @@
             </table>
         </div>
     </div>
-
     <div class="card-footer d-flex justify-content-center">
         {{ ctx.locals.pageRender | safe }}
     </div>
-
 </div>
 <script>
     var Vueapp = new Vue({
         el: '#vueapp',
         data: function () {
             return {
-
+                
             }
         },
         methods: {

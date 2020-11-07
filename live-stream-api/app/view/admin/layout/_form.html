@@ -30,6 +30,8 @@
             </div>
         </form>
         {% endif %}
+
+
     </div>
 </div>
 <script>
@@ -37,9 +39,9 @@
         el: '#vueapp',
         data: function () {
             return {
-                // form: {
-                //     {% for item in form.fields %} {{ item.name }} : "{{ form.data[item.name] if form.data[item.name] else item.default }}",{% endfor %}
-                // }
+                form: {
+                    {% for item in form.fields %} {{ item.name }}: "{{ form.data[item.name] if form.data[item.name] else item.default }}",{% endfor %}
+                }
             }
         },
         methods: {

@@ -1,52 +1,46 @@
-'use strict'
+'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const { INTEGER, STRING, DATE, ENUM, TEXT } = Sequelize
+    const { INTEGER, STRING, DATE, ENUM, TEXT } = Sequelize;
     return queryInterface.createTable('user', {
       id: {
         type: INTEGER(20),
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
       },
       username: {
         type: STRING(30),
         allowNull: false,
         defaultValue: '',
         comment: '用户名',
-        unique: true,
+        unique: true
       },
       password: {
         type: STRING,
         allowNull: false,
         defaultValue: '',
-        comment: '密码',
+        comment: "密码"
       },
       avatar: {
         type: STRING,
         allowNull: true,
         defaultValue: '',
-        comment: '头像',
+        comment: '头像'
       },
       coin: {
         type: INTEGER,
         allowNull: false,
         defaultValue: 0,
-        comment: '金币',
+        comment: '金币'
       },
       created_time: DATE,
       updated_time: DATE,
-      wx_open_id:{
-        type:STRING,
-        allowNull:true,
-        defaultValue:'',
-        comment:'微信openId',
-      },
-    })
-  },
 
+    });
+  },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('user')
-  },
-}
+    return queryInterface.dropTable('user');
+  }
+};

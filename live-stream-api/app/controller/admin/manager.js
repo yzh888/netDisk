@@ -1,183 +1,123 @@
 'use strict';
 
+
 const Controller = require('egg').Controller;
 
+
+const fields = [{
+    label: "用户名",
+    type: "text",
+    name: "username",
+    placeholder: "用户名",
+}, {
+    label: "密码",
+    type: "text",
+    name: "password",
+    placeholder: "密码"
+}]
+
+
 class ManagerController extends Controller {
-    // 创建管理员表单
-    async create() {
-        const { ctx } = this;
-        await ctx.render('admin/manager/create.html');
-    }
-    // 创建管理员逻辑
-    async save() {
+
+
+    async index() {
         const { ctx, app } = this;
-        ctx.validate({
-            username: {
-                type: "string",
-                required: true,
-                desc: "管理员账户"
-            },
-            password: {
-                type: "string",
-                required: true,
-                desc: "密码"
-            }
-        })
 
 
-        let { username, password } = ctx.request.body;
-
-
-        if (await app.model.Manager.findOne({
-            where: {
-                username
-            }
-        })) {
-            return ctx.apiFail('该管理员已存在');
-        }
-
-
-        let manager = await app.model.Manager.create({
-            username, password
-        })
-
-
-        ctx.apiSuccess(manager)
-    }
-
-    // 编辑表单页
-    async edit() {
-        const { ctx, app } = this
-        const id = ctx.params.id
-
-
-        let data = await app.model.Manager.findOne({
-            where: {
-                id,
-            },
-        })
-        if (!data) {
-            return await ctx.pageFail('该记录不存在')
-        }
-
-
-        data = JSON.parse(JSON.stringify(data))
-        delete data.password
+        let data = await ctx.page('Manager')
 
 
         await ctx.renderTemplate({
-            id,
-            title: '修改管理员',
-            tempType: 'form',
-            form: {
-                // 提交地址
-                action: '/admin/manager/' + id,
-                // 字段配置
-                fields: [
-                    {
-                        label: '用户名',
-                        type: 'text',
-                        name: 'username',
-                        placeholder: '用户名',
-                    },
-                    {
-                        label: '密码',
-                        type: 'text',
-                        name: 'password',
-                        placeholder: '密码',
-                    },
-                ],
-                // 默认值
-                data,
-            },
+            title: "管理员管理",
+            tempType: "table",
+            table: {
+                // 按钮
+                buttons: {
+                    add: "/admin/manager/create"
+                },
+                // 表头
+                columns: [{
+                    title: '管理员',
+                    fixed: 'left',
+                    key: "username"
+                }, {
+                    title: '时间',
+                    key: 'created_time',
+                    width: 180,
+                    fixed: 'center'
+                }, {
+                    title: "操作",
+                    width: 200,
+                    fixed: 'center',
+                    action:{
+                        edit:function(id){
+                            return `/admin/manager/edit/${id}`
+                        },
+                        delete:function(id){
+                            return `/admin/manager/delete/${id}`
+                        },
+                    }
+                }],
+                data
+            }
         })
     }
 
 
-    // 更新逻辑
-    async update() {
-        const { ctx, app } = this
-        ctx.validate({
-            id: {
-                type: 'int',
-                required: true,
+    async create() {
+        const { ctx, app } = this;
+        await ctx.renderTemplate({
+            title: "创建管理员",
+            tempType: "form",
+            form: {
+                // 提交地址
+                action: "/admin/manager",
+                fields
             },
+            // 新增成功跳转路径
+            successUrl:"/admin/manager"
+        })
+    }
+
+
+    async save() {
+        const { ctx, app } = this;
+
+
+        // 参数验证
+        ctx.validate({
             username: {
                 type: 'string',
                 required: true,
-                desc: '管理员名称',
+                desc: '用户名'
             },
             password: {
                 type: 'string',
-                required: false,
-                desc: '密码',
+                required: true,
+                desc: '密码'
             },
-        })
+        });
+        let { username, password } = ctx.request.body;
 
 
-        let id = ctx.params.id
-        let { username, password } = ctx.request.body
-
-
-        let manager = await app.model.Manager.findOne({
-            where: {
-                id,
-            },
-        })
+        // 验证用户是否已经存在
+        if (await app.model.Manager.findOne({
+            where: { username }
+        })) {
+            ctx.throw(400, '用户名已存在');
+        }
+        // 创建用户
+        let manager = await app.model.Manager.create({
+            username,
+            password,
+        });
         if (!manager) {
-            return ctx.apiFail('该记录不存在')
+            ctx.throw(400, '创建用户失败');
         }
-
-
-        const Op = app.Sequelize.Op
-
-
-        if (
-            await app.model.Manager.findOne({
-                where: {
-                    id: {
-                        [Op.ne]: id,
-                    },
-                    username,
-                },
-            })
-        ) {
-            return ctx.apiFail('管理员名称已存在')
-        }
-
-
-        manager.username = username
-        if (password) {
-            manager.password = password
-        }
-
-
-        ctx.apiSuccess(await manager.save())
+        ctx.apiSuccess(manager);
     }
-
-    // 管理员列表
-    //   async index() {
-    //     const { ctx } = this
-    //     let data = [
-    //         {"username": "用户", "created_time": "2020-11-07 20:00:00"},
-    //         {"username": "admin", "created_time": "2020-11-07 20:10:00"},
-    //         {"username": "fengwang", "created_time": "2020-11-07 21:00:00"},
-    //         {"username": "laowang", "created_time": "2020-11-07 21:30:00"},
-    //     ]
-    //     await ctx.render('admin/manager/index.html', {
-    //       data,
-    //     })
-    //   }
-
-    // 管理员列表
-    async index() {
-        const { ctx, app } = this
-        let data = await ctx.page('Manager')
-        await ctx.render('admin/manager/index.html', {
-            data,
-        })
-    }
-
+   
 }
+
 
 module.exports = ManagerController;

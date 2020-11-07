@@ -1,74 +1,72 @@
 <div class="header">
-    <!-- Logo -->
-    <div class="header-left">
-      <a href="index.html" class="logo">
-        <img src="/public/assets/img/logo.png" alt="Logo" />
-      </a>
-      <a href="index.html" class="logo logo-small">
-        <img
-          src="/public/assets/img/logo-small.png"
-          alt="Logo"
-          width="30"
-          height="30"
-        />
-      </a>
-    </div>
-    <!-- /Logo -->
-  
-  
-    <a href="javascript:void(0);" id="toggle_btn">
-      <i class="fe fe-text-align-left"></i>
+  <!-- Logo -->
+  <div class="header-left">
+    <a href="/admin" class="logo">
+     <h2 class="text-white mt-2">LIVE-SHOW</h2>
     </a>
-  
-  
-    <div class="top-nav-search">
-      <form>
-        <input type="text" class="form-control" placeholder="Search here" />
-        <button class="btn" type="submit"><i class="fa fa-search"></i></button>
-      </form>
-    </div>
-  
-  
-    <!-- Mobile Menu Toggle -->
-    <a class="mobile_btn" id="mobile_btn">
-      <i class="fa fa-bars"></i>
+    <a href="/admin" class="logo logo-small">
+      <img
+        src="/public/assets/img/logo-small.png"
+        alt="Logo"
+        width="30"
+        height="30"
+      />
     </a>
-    <!-- /Mobile Menu Toggle -->
-  
-  
-    <!-- Header Right Menu -->
-    <ul class="nav user-menu">
-      <!-- User Menu -->
-      <li class="nav-item dropdown has-arrow">
-        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-          <span class="user-img"
-            ><img
-              class="rounded-circle"
-              src="/public/assets/img/profiles/avatar-05.jpg"
-              width="31"
-              alt="Ryan Taylor"
-          /></span>
-        </a>
-        <div class="dropdown-menu">
-          <div class="user-header">
-            <div class="avatar avatar-sm">
-              <img
-                src="/public/assets/img/profiles/avatar-05.jpg"
-                alt="User Image"
-                class="avatar-img rounded-circle"
-              />
-            </div>
-            <div class="user-text">
-              <h6>admin</h6>
-              <p class="text-muted mb-0">超级管理员</p>
-            </div>
-          </div>
-          <a class="dropdown-item" href="profile.html">修改资料</a>
-          <a class="dropdown-item" href="login.html">退出登录</a>
-        </div>
-      </li>
-      <!-- /User Menu -->
-    </ul>
-    <!-- /Header Right Menu -->
   </div>
-  
+  <!-- /Logo -->
+
+
+  <a href="javascript:void(0);" id="toggle_btn">
+    <i class="fe fe-text-align-left"></i>
+  </a>
+
+
+  <!-- <div class="top-nav-search">
+      <form>
+          <input type="text" class="form-control" placeholder="搜索直播间">
+          <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+      </form>
+  </div> -->
+
+
+  <!-- Mobile Menu Toggle -->
+  <a class="mobile_btn" id="mobile_btn">
+    <i class="fa fa-bars"></i>
+  </a>
+  <!-- /Mobile Menu Toggle -->
+
+
+  <!-- Header Right Menu -->
+  <ul class="nav user-menu">
+    <!-- User Menu -->
+    <li class="nav-item dropdown has-arrow">
+      <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+        <span class="user-img"
+          ><img
+            class="rounded-circle"
+            src="/public/assets/img/profiles/me.jpg"
+            width="31"
+        /></span>
+      </a>
+      {% if ctx.session.auth %}
+      <div class="dropdown-menu">
+        <div class="user-header">
+          <div class="avatar avatar-sm">
+            <img
+              src="/public/assets/img/profiles/me.jpg"
+              class="avatar-img rounded-circle"
+            />
+          </div>
+          <div class="user-text">
+            <h6>{{ctx.session.auth.username}}</h6>
+            <p class="text-muted mb-0">超级管理员</p>
+          </div>
+        </div>
+        <a class="dropdown-item" href="/admin/logout">退出登录</a>
+      </div>
+      {% endif %}
+    </li>
+    <!-- /User Menu -->
+  </ul>
+  <!-- /Header Right Menu -->
+</div>

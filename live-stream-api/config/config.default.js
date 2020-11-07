@@ -16,13 +16,21 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1604219570493_5741';
 
   // add your middleware config here
-  config.middleware = ['errorHandler', 'auth']
+  config.middleware = ['errorHandler', 'auth','adminAuth','adminSidebar']
 
   config.auth = {
     match: ['/api/live/create', '/api/logout', '/api/user/info', '/api/live/changestatus'],
   }
 
+  config.webUrl = 'http://127.0.0.1:7001'
   // add your user config here
+  config.adminAuth = {
+    ignore: ['/api', '/admin/login', '/admin/loginevent'],
+  }
+  config.adminSidebar = {
+    ignore: ['/api', '/admin/login', '/admin/loginevent', '/public'],
+  }
+
   const userConfig = {
     // myAppName: 'egg',
   };
@@ -142,6 +150,32 @@ module.exports = appInfo => {
     },
   };
 
+  //session配置
+  config.session = {
+    renew: true,
+    key: 'EGG_SESS',
+    maxAge: 24 * 3600 * 1000 * 30, // 1 天
+    httpOnly: true,
+    encrypt: true,
+  }
+
+  //文件上传配置
+  config.multipart = {
+    fileSize: '50mb',
+    mode: 'stream',
+    fileExtensions: [
+      '.xls',
+      '.txt',
+      '.jpg',
+      '.JPG',
+      '.png',
+      '.PNG',
+      '.gif',
+      '.GIF',
+      '.jpeg',
+      '.JPEG',
+    ], //上传的文件格式
+  }
 
   return {
     ...config,

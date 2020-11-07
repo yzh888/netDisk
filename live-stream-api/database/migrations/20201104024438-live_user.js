@@ -1,13 +1,13 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    const { INTEGER, STRING, DATE, ENUM, TEXT } = Sequelize
+  up: (queryInterface, Sequelize) => {
+    const { INTEGER, STRING, DATE, ENUM, TEXT } = Sequelize;
     return queryInterface.createTable('live_user', {
       id: {
         type: INTEGER(20),
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
       },
       live_id: {
         type: INTEGER,
@@ -16,10 +16,10 @@ module.exports = {
         comment: '直播间id',
         references: {
           model: 'live',
-          key: 'id',
+          key: 'id'
         },
         onDelete: 'cascade',
-        onUpdate: 'restrict'
+        onUpdate: 'restrict', // 更新时操作
       },
       user_id: {
         type: INTEGER,
@@ -28,17 +28,17 @@ module.exports = {
         comment: '用户id',
         references: {
           model: 'user',
-          key: 'id',
+          key: 'id'
         },
         onDelete: 'cascade',
-        onUpdate: 'restrict',
+        onUpdate: 'restrict', // 更新时操作
       },
       created_time: DATE,
       updated_time: DATE,
-    })
+    });
   },
 
-  down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('live_user')
-  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('live_user');
+  }
 };

@@ -23,7 +23,11 @@
     "md5": "2.3.0",
     "mysql2": "^2.2.5",
     "node-media-server": "^2.2.4",
-    "stream-wormhole": "^1.1.0"
+    "stream-wormhole": "^1.1.0",
+    "ms": "^2.1.2",
+    "egg-full-wechat-pay": "^1.0.0",
+    "egg-tenpay": "^1.0.1",
+    "tenpay": "^2.1.18"
   },
   "devDependencies": {
     "autod": "^3.0.1",

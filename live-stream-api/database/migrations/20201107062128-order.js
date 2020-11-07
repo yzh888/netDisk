@@ -3,23 +3,18 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const { INTEGER, STRING, DATE, ENUM, TEXT } = Sequelize;
-    return queryInterface.createTable('live_gift', {
+    return queryInterface.createTable('order', {
       id: {
         type: INTEGER(20),
         primaryKey: true,
         autoIncrement: true
       },
-      live_id: {
-        type: INTEGER,
+      no: {
+        type: STRING(100),
         allowNull: false,
-        defaultValue: 0,
-        comment: '直播间id',
-        references: {
-          model: 'live',
-          key: 'id'
-        },
-        onDelete: 'cascade',
-        onUpdate: 'restrict', // 更新时操作
+        defaultValue: '',
+        comment: '订单号',
+        unique: true
       },
       user_id: {
         type: INTEGER,
@@ -33,17 +28,18 @@ module.exports = {
         onDelete: 'cascade',
         onUpdate: 'restrict', // 更新时操作
       },
-      gift_id: {
-        type: INTEGER,
+      price:{
+        type:INTEGER,
         allowNull: false,
         defaultValue: 0,
-        comment: '礼物id',
-        references: {
-          model: 'gift',
-          key: 'id'
-        },
-        onDelete: 'cascade',
-        onUpdate: 'restrict', // 更新时操作
+        comment: '价格'
+      },
+      status:{
+        type:ENUM,
+        values: ['pending', 'success', 'fail'],
+        allowNull: false,
+        defaultValue: 'pending',
+        comment: '支付状态'
       },
       created_time: DATE,
       updated_time: DATE,
@@ -51,6 +47,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('live_gift');
+    return queryInterface.dropTable('order');
   }
 };

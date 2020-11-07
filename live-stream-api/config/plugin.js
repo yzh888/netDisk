@@ -30,4 +30,8 @@ module.exports = {
     enable: true,
     package: 'egg-view-nunjucks',
   },
+  tenpay: {
+    enable: true,
+    package: 'egg-tenpay',
+  },
 }

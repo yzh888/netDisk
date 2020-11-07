@@ -25,12 +25,13 @@ $(function(){
 		redraw: true
 	});
 	
+
 	/* Morris Line Chart */
 	
 	window.mL = Morris.Line({
 	    element: 'morrisLine',
 	    data: [
-	        { y: '大苏打是否', a: 100, b: 30, c:50 },
+	        { y: '2015', a: 100, b: 30, c:50 },
 	        { y: '2016', a: 20,  b: 60,  c:100 },
 	        { y: '2017', a: 90,  b: 120, c:50 },
 	        { y: '2018', a: 50,  b: 80,  c:100 },
