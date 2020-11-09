@@ -1,30 +1,31 @@
-'use strict'
+'use strict';
 
-const Controller = require('egg').Controller
-const await = require('await-stream-ready/lib/await')
-// 引入md5模块
-const md5 = require('md5')
+const Controller = require('egg').Controller;
+const await = require('await-stream-ready/lib/await');
+// 引入模块
+const md5 = require('md5');
 class LiveController extends Controller {
     // 创建直播间
     async save() {
-        let { ctx, app } = this
+        let { ctx, app } = this;
         let user_id = ctx.authUser.id
-
         // 参数验证
         ctx.validate({
             title: {
                 required: true,
-                type: 'string',
-                desc: '直播间标题',
+                type: "string",
+                desc: "直播间标题"
             },
             cover: {
-                required: true,
-                type: 'string',
-                desc: '直播间封面',
-            },
+                required: false,
+                type: "string",
+                desc: "直播间封面"
+            }
         })
 
-        let { title, cover } = ctx.request.body
+        let {
+            title, cover
+        } = ctx.request.body
 
         // 生成唯一id
         let key = ctx.randomString(20)
@@ -34,6 +35,7 @@ class LiveController extends Controller {
             cover,
             key,
             user_id,
+            status: true
         })
 
         // 生成签名
@@ -41,10 +43,9 @@ class LiveController extends Controller {
 
         ctx.apiSuccess({
             data: res,
-            sign,
+            sign
         })
     }
-
 
     // 生成签名
     sign(key) {
@@ -55,106 +56,123 @@ class LiveController extends Controller {
         return `${expire}-${hashValue}`
     }
 
-    //修改直播间状态
+    // 修改直播间状态
     async changeStatus() {
         let { ctx, app } = this
         let user_id = ctx.authUser.id
-        //参数链接
+
+        // 参数验证
         ctx.validate({
             id: {
-                type: 'int',
+                type: "int",
                 required: true,
-                desc: '直播间ID',
+                desc: "直播间ID"
             },
             type: {
-                type: 'string',
+                type: "string",
                 required: true,
                 range: {
-                    in: ['play', 'pause', 'stop'],
-                },
-            },
+                    in: ['play', 'pause', 'stop']
+                }
+            }
         })
+
+
         let { id, type } = ctx.request.body
+
         let live = await app.model.Live.findOne({
             where: {
                 id,
-                user_id,
-            },
+                user_id
+            }
         })
+
         if (!live) {
             return ctx.apiFail('该直播间不存在')
         }
+
         if (live.status === 3) {
             return ctx.apiFail('该直播间已结束')
         }
+
         const status = {
             play: 1,
             pause: 2,
-            stop: 3,
+            stop: 3
         }
+
         live.status = status[type]
         await live.save()
+
+
         ctx.apiSuccess('ok')
     }
 
 
-    //直播间列表，带分页
+    // 直播间列表
     async list() {
-        let { ctx, app } = this
+        let { ctx, app } = this;
         ctx.validate({
             page: {
                 required: true,
-                desc: '页码',
-                type: 'int',
-            },
-        })
+                desc: "页码",
+                type: "int"
+            }
+        });
+
         let page = ctx.params.page
         let limit = 10
         let offset = (page - 1) * limit
+
         let rows = await app.model.Live.findAll({
-            limit,
-            offset,
+            limit, offset
         })
+
         ctx.apiSuccess(rows)
     }
 
-    //查看指定直播间
+
     async read() {
         const { ctx, app } = this
+
+
         ctx.validate({
             id: {
                 required: true,
-                desc: '直播间ID',
-                type: 'int',
-            },
-        })
+                desc: "直播间ID",
+                type: "int"
+            }
+        });
+
         let id = ctx.params.id
+
         let live = await app.model.Live.findOne({
             where: {
-                id,
+                id
             },
-            include: [
-                {
-                    model: app.model.User,
-                    attributes: ['id', 'username', 'avatar'],
-                },
-            ],
+            include: [{
+                model: app.model.User,
+                attributes: ['id', 'username', 'avatar']
+            }]
         })
+
         if (!live) {
             return ctx.apiFail('该直播间不存在')
         }
-        //生成签名
+
+        // 生成签名
         let sign = null
-        //直播未结束
+
+        // 直播未结束
         if (live.status !== 3) {
             sign = this.sign(live.key)
         }
+
         ctx.apiSuccess({
             data: live,
-            sign,
+            sign
         })
     }
-
 }
 
-module.exports = LiveController
+module.exports = LiveController;

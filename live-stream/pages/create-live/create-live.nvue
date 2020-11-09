@@ -13,20 +13,23 @@
 		 :whiteness="whiteness" 
 		 aspect="9:16" 
 		 @statechange="statechange"
-		 @netstatus="netstatus" @error="error" :style="'height:' + windowHeight + 'px;'" style="width: 750rpx;"></live-pusher>
+		 @netstatus="netstatus" 
+		 @error="error" 
+		 :style="'height:' + windowHeight + 'px;'" 
+		 style="width: 750rpx;"></live-pusher>
 		<view style="position: fixed;left: 0;right: 0;height: 500rpx;" :style="'top:'+statusBarHeight+'px;'">
 			<view class="flex align-center justify-center" style="width: 90rpx; height: 90rpx;">
 				<text class="iconfont text-white">&#xe607;</text>
 			</view>
 			<view class="position-absolute rounded p-2 flex align-center" 
 			style="left: 90rpx;right: 100rpx;height: 160rpx;background-color: rgba(0,0,0,0.2);">
-				<view class="position-relative rounded" style="height: 120rpx;width: 120rpx;">
-					<image src="../../static/gift/8.png" style="height: 120rpx;width: 120rpx;"></image>
+				<view class="position-relative rounded" style="height: 120rpx;width: 120rpx;" @click="chooseCover">
+					<image :src="form.cover || '/static/taoranran.jpg'" style="height: 120rpx;width: 120rpx;"></image>
 					<text class="text-white position-absolute font" style="left: 0; right: 0;bottom: 0;">更换封面</text>
 				</view>
 				<view class="flex-1 ml-2">
-					<input type="text" value="" placeholder="请输入直播标题" class="mb-2" />
-					<text class="text-white font">#请选择分类</text>
+					<input type="text" v-model="form.title" placeholder="请输入直播标题" class="mb-2 text-light" />
+					<!-- <text class="text-white font">#请选择分类</text> -->
 				</view>
 			</view>
 			<view class="position-absolute right-0 flex flex-column" style="width: 100rpx;">
@@ -53,7 +56,7 @@
 		</view>
 
 		<view class="position-fixed bg-main flex align-center justify-center rounded-circle" 
-		style="left: 100rpx;right: 100rpx;bottom: 100rpx;height: 120rpx;">
+		style="left: 100rpx;right: 100rpx;bottom: 100rpx;height: 120rpx;" @click="openLiveRoom">
 			<text class="text-white font-md">开始视频直播</text>
 		</view>
 
@@ -89,7 +92,9 @@
 
 
 <script>
-	import uniPopup from '@/components/uni-ui/uni-popup/uni-popup.vue'
+	import uniPopup from '@/components/uni-ui/uni-popup/uni-popup.vue';
+	import $H from '@/common/request.js';
+	import $C from '@/common/config.js';
 	export default {
 		components: {
 			uniPopup
@@ -126,7 +131,12 @@
 					type: "FHD",
 					desc: "超清"
 				}],
-				popupType: "mode"
+				popupType: "mode",
+				showBars:true,
+				form:{
+					title:"",
+					cover:""
+				}
 			};
 		},
 
@@ -142,6 +152,35 @@
 		},
 
 		methods: {
+			openLiveRoom(){
+				$H.post('/live/create',this.form,{
+					token:true
+				}).then(res=>{
+					let options ={
+						mode:this.mode,
+						position:this.position,
+						beauty:this.beauty,
+						whiteness:this.whiteness
+					}
+					uni.navigateTo({
+						url:`../live-room/live-room?options=${JSON.stringify(options)}&data=${encodeURIComponent(JSON.stringify(res))}`,
+					});
+				})
+			},
+			chooseCover(){
+				uni.chooseImage({
+					count:1,
+					success:(res) => {
+						$H.upload('/upload',{
+							filePath:res.tempFilePaths[0]
+						},(p)=>{
+							console.log(p);
+						}).then(res=>{
+							this.form.cover = $C.imageUrl + res.url
+						})
+					}
+				})
+			},
 			handleSliderChange(e) {
 				this[this.popupType] = e.detail.value
 			},
